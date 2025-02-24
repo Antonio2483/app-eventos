@@ -59,12 +59,12 @@ const logarUsuario = async (req, res) =>{
 
         // Verifica a senha pelo banco
 
-        const senhaValida = await Usuario.verificarSenha(senha);
+        const senhaValida = await usuario.verificarSenha(senha);
         if(!senhaValida){
             return res.status(401).json({error:"Email ou senha incorretos"});
         }
 
-        const token = gerarToken(novoUsuario._id);
+        const token = gerarToken(usuario._id);
 
         res.status(201).json({message:"Usuário logado com sucesso!",auth:token})
         
