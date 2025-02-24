@@ -9,6 +9,7 @@ app.use(express.json());
 
 // Importando Rotas
 const eventosRoutes = require("./routes/eventosRoutes");
+const usuariosRoutes = require("./routes/usuariosRoutes");
 // const calendarioRoutes = require("./routes/calendarioRoutes");
 
 // Conectar com o BD na nuvem
@@ -16,6 +17,7 @@ connectDB();
 
 // Usando rotas
 app.use("/eventos", eventosRoutes);
+app.use("/usuarios", usuariosRoutes);
 // app.use("/calendario", calendarioRoutes);
 
 app.get("/", (req, res) => {
