@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
+import { AuthProvider } from "../context/AuthContext";
+import PrivateRoute from "./privateRoutes"
 // Pages
 
 import Home from '../Pages/HomePage';
@@ -9,13 +10,23 @@ import Calendario from '../Pages/CalendarioPage';
 
 export default function Rotas() {
     return(
-    <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<Home/>} />
-            <Route path="/login" element={<Login/>} />
-            <Route path="/eventos" element={<Eventos/>} />
-            <Route path="/calendario" element={<Calendario/>} />
-        </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/login" element={<Login/>} />
+
+                {/* rotas privadas */}
+                <Route element={<PrivateRoute />}>
+                    <Route path="/home" element={<Home/>} />
+                    <Route path="/eventos" element={<Eventos/>} />
+                    <Route path="/calendario" element={<Calendario/>} />
+                </Route>
+                {/* paginas publicas */}
+
+                <Route path="/" element={<Home/>} />
+
+            </Routes>
+        </BrowserRouter>
+    </AuthProvider>
     );
 }
