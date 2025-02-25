@@ -47,7 +47,7 @@ export default function Login() {
                     <button className="button login-button" onClick={handleLogin}>Entrar</button>
                 </div>
             </div>
-            <Footer className="login-footer" />
+            <Footer />
         </div>
 
     );
