@@ -1,0 +1,84 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.login-page {
+    min-height: 100vh;
+    background-color: #cda6d2;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.login-container {
+    display: flex; 
+    height: 100%;
+    flex: 1;
+}
+
+.login-content {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px; /* Borda azul para a seção que contém logo e login */
+}
+
+.login-logo {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%; /* Borda verde para a logo */
+}
+
+.login-logo-img {
+    height: 400px;
+    margin-left: 100px;
+}
+
+.login-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    padding: 20px;
+}
+
+.input {
+    background-color: #cda6d2;
+    border: none;
+    padding: 20px;
+    border-bottom: solid 1px grey;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    outline: none;
+    width: 50%;
+    
+}
+
+.title-font {
+    font-weight: 700;
+}
+
+.login-button {
+    margin-top: 20px;
+    background-color: #cda6d2; 
+    transition: background-color 1s;
+    border-radius: 8px;
+    width: 200px;
+    height: 40px;
+}
+.login-button:hover {
+    background-color: black; 
+    color: #cda6d2;
+  }
+
+.login-footer {
+    text-align: center;
+    padding: 10px;
+    margin-top: auto;
+}

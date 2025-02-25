@@ -23,7 +23,7 @@ export default function Rotas() {
                 </Route>
                 {/* paginas publicas */}
 
-                <Route path="/" element={<Home/>} />
+                <Route path="/" element={<Login/>} />
 
             </Routes>
         </BrowserRouter>
