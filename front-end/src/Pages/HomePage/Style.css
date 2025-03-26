@@ -1,0 +1,15 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.home-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: line;
+}
+
+.home-content {
+    height: 100%;
+    flex: 1;
+}
