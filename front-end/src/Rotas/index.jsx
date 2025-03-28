@@ -5,7 +5,7 @@ import PrivateRoute from "./privateRoutes"
 
 import Home from '../Pages/HomePage';
 import Login from '../Pages/LoginPage';
-import Eventos from '../Pages/MapaPage';
+import Mapa from '../Pages/MapaPage';
 import Calendario from '../Pages/CalendarioPage';
 
 export default function Rotas() {
@@ -18,8 +18,8 @@ export default function Rotas() {
                     {/* rotas privadas */}
                     <Route element={<PrivateRoute />}>
                         <Route path="/home" element={<Home />} />
-                        <Route path="/eventos" element={<Eventos />} />
                         <Route path="/calendario" element={<Calendario />} />
+                        <Route path="/mapa" element={<Mapa />} />
                     </Route>
                     {/* paginas publicas */}
 

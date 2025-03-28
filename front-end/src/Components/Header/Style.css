@@ -1,7 +1,7 @@
 /* Header.css */
 
-header {
-    background-color: #cda6d2;
+.header-container {
+    background-color: #a687aa;
     color: #fff;
     padding: 10px 20px;
     display: flex;
@@ -10,33 +10,5 @@ header {
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-}
-
-header .logo a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.5em;
-}
-
-.header-imagem img{
-    height: 50px;
-    width: auto;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-}
-
-nav ul li {
-    margin-left: 20px;
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-}
-
-nav ul li a:hover {
-    text-decoration: underline;
+    font-size: 1.5rem;
 }

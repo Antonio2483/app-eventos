@@ -7,9 +7,11 @@ html, body {
     min-height: 100vh;
     display: flex;
     flex-direction: line;
+    
 }
 
 .home-content {
     height: 100%;
     flex: 1;
+    margin-left: 75px;
 }

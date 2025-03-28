@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-
+import './Style.css';
 // Componentes
 
 import Header from "../../Components/Header"
+import Navbar from "../../Components/Navbar";
 
 export default function Mapa() {
     // Isso aqui faz uma requisição pro controller de eventos lá no back, chamando a função getEventos
@@ -16,14 +17,18 @@ export default function Mapa() {
     }, []);
 
     return (
-        <div>
-            <Header />
+        <div className="mapa-page">
+        <Navbar />
+
+        <div className="mapa-content">
+            <Header title="Mapas"/>
             <p>Mapa de Eventos</p>
             <ul>
                 {eventos.map(evento => (
                     <li key={evento.id}>{evento.nome} - {evento.data}</li>
                 ))}
             </ul>
+        </div>
         </div>
     );
 }

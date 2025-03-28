@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd back-end && npm install && npm start",
+    "client": "cd front-end && npm install && npm start"
   },
   "keywords": [],
   "author": "",
@@ -12,10 +14,11 @@
   "devDependencies": {
     "concurrently": "^9.1.2"
   },
-  "scripts": {
-  "start": "concurrently \"npm run server\" \"npm run client\"",
-  "server": "cd back-end && npm install && npm start",
-  "client": "cd front-end && npm install && npm start"
-}
-
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-regular-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2"
+  }
 }
