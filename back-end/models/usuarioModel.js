@@ -40,6 +40,15 @@ const usuarioSchema = new mongoose.Schema({
             type: Date,
             required: true
         },
+        cidade:{
+            type: String,
+            required: true
+        },
+        estado:{
+            type: String,
+            required: true,
+            match: /^[A-Za-z]{2}$/
+        },
     },
 
     // Campos específicos da empresa(vazios por padrão)

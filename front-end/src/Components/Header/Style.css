@@ -1,14 +1,18 @@
 /* Header.css */
 
 .header-container {
-    background-color: #a687aa;
-    color: #fff;
+    position: fixed;
+    top: 0;
+    left: 6%;/* pra não cobrir a navbar */
+    right: 0;
+    height: 60px; /* define altura fixa */
+    background-color: white;
+    color: #cda6d2;
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
     font-size: 1.5rem;
+    border-bottom: 2px solid #cda6d2;
+    z-index: 20;
 }

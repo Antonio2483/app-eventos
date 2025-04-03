@@ -1,20 +1,40 @@
 .navbar-container {
   height: 100vh;
   /* altura total da tela */
-  width: fit-content;
   position: fixed;
   top: 0;
   left: 0;
   background-color: #cda6d2;
-  color: #fff;
-  padding-top: 20px;
-  width: 75px;
+  color: white;
+  width: 6%;
+  z-index: 10;
+}
+
+.navbar-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  height: 100%;
 }
 
 .navbar-container ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  width: 70%;
+  height: 67%;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-container li {
+  flex: 1;
+}
+
+.navbar-container button {
+  width: 100%;
+  height: 100%;
 }
 
 .navbar-btn-icon {
@@ -33,5 +53,5 @@
 }
 
 .navbar-btn-icon:hover {
-  background-color: #ed8dfa;
+  background-color: #9489f5;
 }

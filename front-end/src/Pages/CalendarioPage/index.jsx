@@ -4,16 +4,18 @@ import './Style.css';
 //Components 
 import Header from "../../Components/Header"
 import Navbar from "../../Components/Navbar";
+import Perfil from "../../Components/Perfil";
 
 export default function Calendario() {
 
     return (
         <div className="calendario-page">
             <Navbar />
-            <div className="calendario-content">
-                <Header title="Calendário" />
+            <Header title="Calendário" />
+            <main className="calendario-content">
                 <p>PÁGINA DO CALENDÁRIO</p>
-            </div>
+            </main>
+            <Perfil />
         </div>
     );
 }

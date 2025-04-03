@@ -1,17 +1,29 @@
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
+    height: 100%;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    /* overflow: hidden; */
 }
 
 .home-page {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: line;
-    
+    height: 100vh;
+    overflow: hidden;
 }
 
 .home-content {
-    height: 100%;
-    flex: 1;
-    margin-left: 75px;
+    position: absolute;
+    margin-left: 6%;
+    /* espaço da navbar */
+    margin-right: 30%;
+    /* espaço do perfil */
+    min-height: calc(100vh - 60px);
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 60px 0 0 10px;
 }
