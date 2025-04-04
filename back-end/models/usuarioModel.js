@@ -54,7 +54,7 @@ const usuarioSchema = new mongoose.Schema({
     // Campos específicos da empresa(vazios por padrão)
 
     empresaData:{
-        nomeEmpresa: String,
+        nomeFantasia: String,
         cnpj: {
             type:String,
             unique:true,

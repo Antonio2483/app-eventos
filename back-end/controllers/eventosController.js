@@ -1,19 +1,39 @@
-const eventos = [
-    { id: 1, nome: 'Evento React', data: '2025-03-10' },
-    { id: 2, nome: 'Evento Node.js', data: '2025-03-15' }
-];
+const Evento = require('../models/eventosModel');
+
 
 // Função para listar eventos
-const getEventos = (req, res) => {
-    res.json(eventos);
+const getTodosEventosPublicos = async (req, res) => {
+    try {
+        const eventos = await Evento.find({ privado: false }).populate('criadoPor', 'tipo pessoaData.nome pessoaData.sobrenome empresaData.nomeFantasia email')
+
+        res.status(200).json(eventos);
+
+    } catch (error) {
+        console.error('Erro ao buscar eventos públicos:', error);
+        res.status(500).json({ mensagem: 'Erro ao buscar eventos' });
+    }
 };
 
-// Função para criar um novo evento
-const createEvento = (req, res) => {
-    const { nome, data } = req.body;
-    const novoEvento = { id: eventos.length + 1, nome, data };
-    eventos.push(novoEvento);
-    res.status(201).json(novoEvento);
+const criarEvento = async (req, res) => {
+    try {
+        const { titulo, descricao, dataMarcada, localizacao } = req.body
+
+        const novoEvento = new Evento({
+            titulo,
+            descricao,
+            dataMarcada,
+            criadoPor: req.usuario.id,
+            localizacao
+        });
+
+        await novoEvento.save();
+
+        res.status(201).json({ message: "Evento criado com sucesso!" })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Erro ao criar evento" });
+    }
 };
 
-module.exports = { getEventos, createEvento };
+
+module.exports = { getTodosEventosPublicos, criarEvento };
