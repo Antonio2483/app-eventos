@@ -25,5 +25,25 @@ body {
     min-height: calc(100vh - 60px);
     overflow-y: auto;
     box-sizing: border-box;
-    padding: 60px 0 0 10px;
+    padding: 60px 0 0 0px;
+    width: 64%;
+    height: 100%;
 }
+
+.home-painel-filtros{
+    padding: 30px 30px;
+}
+
+.home-painel-filtros-botao{
+    border-radius: 10px;
+    border: 1px solid #cda6d2;
+    color: #cda6d2;
+    background-color: white;
+    padding: 10px;
+    margin-right:20px;
+}
+
+.home-painel-filtros-botao:hover {
+    background-color: #cda6d2;
+    color: white;
+  }

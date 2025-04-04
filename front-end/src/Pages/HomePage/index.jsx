@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import './Style.css';
+import callout from '../../services/api';
 
 // Componentes
 
 import Header from "../../Components/Header"
 import Navbar from "../../Components/Navbar";
 import Perfil from "../../Components/Perfil";
+import EventoCard from "../../Components/EventoCard";
 
 export default function Home() {
+    const [eventos, setEventos] = useState([]);
+
+    useEffect(() => {
+        callout.get('http://localhost:5000/eventos/obterTodosEventosPublicos')
+            .then(response => {
+
+                const data = response.data;
+                setEventos(data)
+
+            })
+            .catch(error => console.error('Erro ao buscar eventos:', error));
+    }, []);
 
     return (
         <div className="home-page">
@@ -16,56 +30,15 @@ export default function Home() {
             <Header title="Eventos" />
 
             <main className="home-content">
-                
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam, qui nemo expedita iusto sapiente aspernatur excepturi repellat aliquam voluptatum nostrum.</p>
-                <p>Architecto repellat, sequi optio labore omnis totam doloribus laborum aliquam voluptates tempore modi libero enim quos quaerat. Magni, velit ipsam!</p>
-                <p>Dignissimos laboriosam blanditiis consequatur aliquam similique aspernatur, vero dolore voluptas est unde adipisci totam, architecto minus natus beatae exercitationem eius.</p>
-                <p>Nam cupiditate qui, repudiandae enim sapiente mollitia, debitis vitae recusandae soluta unde hic necessitatibus, provident quidem similique numquam at voluptatibus!</p>
-                <p>Ab pariatur consequuntur aliquam doloribus perferendis aliquid doloremque, molestias a sint fugit accusamus maxime aspernatur facere provident! Ullam, delectus quis?</p>
-                <p>Sint tempora eveniet quis iure obcaecati, officia deleniti dolor repudiandae voluptatem harum reprehenderit laudantium aliquid perspiciatis, optio libero animi necessitatibus.</p>
-                <p>Molestiae facere maiores sequi adipisci vel nulla laboriosam pariatur natus dicta beatae velit quasi laudantium ea debitis, reprehenderit voluptatibus. Optio?</p>
-                <p>Mollitia, incidunt excepturi debitis ut, hic rem praesentium quaerat, dolore quo quidem soluta? Mollitia, ad consectetur quo est pariatur ipsa!</p>
-                <p>Eum, odit architecto, maxime ducimus sequi tempora inventore dolorem dignissimos culpa molestiae quisquam cumque voluptatibus, rerum corrupti! Labore, officiis cupiditate.</p>
-                <p>Nemo natus neque minus rerum, earum debitis inventore architecto dolorem sunt perferendis. In soluta maxime autem, voluptatibus minima at facilis!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam, qui nemo expedita iusto sapiente aspernatur excepturi repellat aliquam voluptatum nostrum.</p>
-                <p>Architecto repellat, sequi optio labore omnis totam doloribus laborum aliquam voluptates tempore modi libero enim quos quaerat. Magni, velit ipsam!</p>
-                <p>Dignissimos laboriosam blanditiis consequatur aliquam similique aspernatur, vero dolore voluptas est unde adipisci totam, architecto minus natus beatae exercitationem eius.</p>
-                <p>Nam cupiditate qui, repudiandae enim sapiente mollitia, debitis vitae recusandae soluta unde hic necessitatibus, provident quidem similique numquam at voluptatibus!</p>
-                <p>Ab pariatur consequuntur aliquam doloribus perferendis aliquid doloremque, molestias a sint fugit accusamus maxime aspernatur facere provident! Ullam, delectus quis?</p>
-                <p>Sint tempora eveniet quis iure obcaecati, officia deleniti dolor repudiandae voluptatem harum reprehenderit laudantium aliquid perspiciatis, optio libero animi necessitatibus.</p>
-                <p>Molestiae facere maiores sequi adipisci vel nulla laboriosam pariatur natus dicta beatae velit quasi laudantium ea debitis, reprehenderit voluptatibus. Optio?</p>
-                <p>Mollitia, incidunt excepturi debitis ut, hic rem praesentium quaerat, dolore quo quidem soluta? Mollitia, ad consectetur quo est pariatur ipsa!</p>
-                <p>Eum, odit architecto, maxime ducimus sequi tempora inventore dolorem dignissimos culpa molestiae quisquam cumque voluptatibus, rerum corrupti! Labore, officiis cupiditate.</p>
-                <p>Nemo natus neque minus rerum, earum debitis inventore architecto dolorem sunt perferendis. In soluta maxime autem, voluptatibus minima at facilis!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam, qui nemo expedita iusto sapiente aspernatur excepturi repellat aliquam voluptatum nostrum.</p>
-                <p>Architecto repellat, sequi optio labore omnis totam doloribus laborum aliquam voluptates tempore modi libero enim quos quaerat. Magni, velit ipsam!</p>
-                <p>Dignissimos laboriosam blanditiis consequatur aliquam similique aspernatur, vero dolore voluptas est unde adipisci totam, architecto minus natus beatae exercitationem eius.</p>
-                <p>Nam cupiditate qui, repudiandae enim sapiente mollitia, debitis vitae recusandae soluta unde hic necessitatibus, provident quidem similique numquam at voluptatibus!</p>
-                <p>Ab pariatur consequuntur aliquam doloribus perferendis aliquid doloremque, molestias a sint fugit accusamus maxime aspernatur facere provident! Ullam, delectus quis?</p>
-                <p>Sint tempora eveniet quis iure obcaecati, officia deleniti dolor repudiandae voluptatem harum reprehenderit laudantium aliquid perspiciatis, optio libero animi necessitatibus.</p>
-                <p>Molestiae facere maiores sequi adipisci vel nulla laboriosam pariatur natus dicta beatae velit quasi laudantium ea debitis, reprehenderit voluptatibus. Optio?</p>
-                <p>Mollitia, incidunt excepturi debitis ut, hic rem praesentium quaerat, dolore quo quidem soluta? Mollitia, ad consectetur quo est pariatur ipsa!</p>
-                <p>Eum, odit architecto, maxime ducimus sequi tempora inventore dolorem dignissimos culpa molestiae quisquam cumque voluptatibus, rerum corrupti! Labore, officiis cupiditate.</p>
-                <p>Nemo natus neque minus rerum, earum debitis inventore architecto dolorem sunt perferendis. In soluta maxime autem, voluptatibus minima at facilis!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam, qui nemo expedita iusto sapiente aspernatur excepturi repellat aliquam voluptatum nostrum.</p>
-                <p>Architecto repellat, sequi optio labore omnis totam doloribus laborum aliquam voluptates tempore modi libero enim quos quaerat. Magni, velit ipsam!</p>
-                <p>Dignissimos laboriosam blanditiis consequatur aliquam similique aspernatur, vero dolore voluptas est unde adipisci totam, architecto minus natus beatae exercitationem eius.</p>
-                <p>Nam cupiditate qui, repudiandae enim sapiente mollitia, debitis vitae recusandae soluta unde hic necessitatibus, provident quidem similique numquam at voluptatibus!</p>
-                <p>Ab pariatur consequuntur aliquam doloribus perferendis aliquid doloremque, molestias a sint fugit accusamus maxime aspernatur facere provident! Ullam, delectus quis?</p>
-                <p>Sint tempora eveniet quis iure obcaecati, officia deleniti dolor repudiandae voluptatem harum reprehenderit laudantium aliquid perspiciatis, optio libero animi necessitatibus.</p>
-                <p>Molestiae facere maiores sequi adipisci vel nulla laboriosam pariatur natus dicta beatae velit quasi laudantium ea debitis, reprehenderit voluptatibus. Optio?</p>
-                <p>Mollitia, incidunt excepturi debitis ut, hic rem praesentium quaerat, dolore quo quidem soluta? Mollitia, ad consectetur quo est pariatur ipsa!</p>
-                <p>Eum, odit architecto, maxime ducimus sequi tempora inventore dolorem dignissimos culpa molestiae quisquam cumque voluptatibus, rerum corrupti! Labore, officiis cupiditate.</p>
-                <p>Nemo natus neque minus rerum, earum debitis inventore architecto dolorem sunt perferendis. In soluta maxime autem, voluptatibus minima at facilis!</p>
-                <p>Architecto repellat, sequi optio labore omnis totam doloribus laborum aliquam voluptates tempore modi libero enim quos quaerat. Magni, velit ipsam!</p>
-                <p>Dignissimos laboriosam blanditiis consequatur aliquam similique aspernatur, vero dolore voluptas est unde adipisci totam, architecto minus natus beatae exercitationem eius.</p>
-                <p>Nam cupiditate qui, repudiandae enim sapiente mollitia, debitis vitae recusandae soluta unde hic necessitatibus, provident quidem similique numquam at voluptatibus!</p>
-                <p>Ab pariatur consequuntur aliquam doloribus perferendis aliquid doloremque, molestias a sint fugit accusamus maxime aspernatur facere provident! Ullam, delectus quis?</p>
-                <p>Sint tempora eveniet quis iure obcaecati, officia deleniti dolor repudiandae voluptatem harum reprehenderit laudantium aliquid perspiciatis, optio libero animi necessitatibus.</p>
-                <p>Molestiae facere maiores sequi adipisci vel nulla laboriosam pariatur natus dicta beatae velit quasi laudantium ea debitis, reprehenderit voluptatibus. Optio?</p>
-                <p>Mollitia, incidunt excepturi debitis ut, hic rem praesentium quaerat, dolore quo quidem soluta? Mollitia, ad consectetur quo est pariatur ipsa!</p>
-                <p>Eum, odit architecto, maxime ducimus sequi tempora inventore dolorem dignissimos culpa molestiae quisquam cumque voluptatibus, rerum corrupti! Labore, officiis cupiditate.</p>
-                <p>Nemo natus neque minus rerum, earum debitis inventore architecto dolorem sunt perferendis. In soluta maxime autem, voluptatibus minima at facilis!</p>
+                <div className="home-painel-filtros">
+                    <button className="home-painel-filtros-botao">Hoje</button>
+                    <button className="home-painel-filtros-botao">Próximos</button>
+                </div>
+
+                {eventos.map((evento, index) => (
+                    <EventoCard key={index} titulo={evento.titulo} descricao={evento.descricao}/>
+                ))}
+
             </main>
 
             <Perfil />

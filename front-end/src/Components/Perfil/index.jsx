@@ -30,7 +30,7 @@ export default function Perfil() {
                     console.log("user: ", user)
                 }
             })
-            .catch(error => console.error('Erro ao buscar eventos:', error));
+            .catch(error => console.error('Erro ao buscar usuario:', error));
     }, []);
 
     return (
