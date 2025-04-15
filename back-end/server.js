@@ -10,7 +10,7 @@ app.use(express.json());
 // Importando Rotas
 const eventosRoutes = require("./routes/eventosRoutes");
 const usuariosRoutes = require("./routes/usuariosRoutes");
-// const calendarioRoutes = require("./routes/calendarioRoutes");
+const inscricaoRoutes = require("./routes/inscricoesRoute");
 
 // Conectar com o BD na nuvem
 connectDB();
@@ -18,7 +18,7 @@ connectDB();
 // Usando rotas
 app.use("/eventos", eventosRoutes);
 app.use("/usuarios", usuariosRoutes);
-// app.use("/calendario", calendarioRoutes);
+app.use("/inscricao", inscricaoRoutes);
 
 app.get("/", (req, res) => {
     res.send("Servidor está rodando!");

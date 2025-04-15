@@ -12,5 +12,29 @@
     min-height: calc(100vh - 60px);
     overflow-y: auto;
     box-sizing: border-box;
-    padding: 60px 0 0 10px;
+    padding: 60px 0 0 0px;
+    width: 64%;
+    height: 100%;
 }
+
+.rbc-month-view .rbc-date-cell {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    padding-top: 8px;
+  }
+  
+  .rbc-day-bg {
+    border: none !important;
+  }
+  
+  .rbc-header {
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .rbc-month-row {
+    border-bottom: none !important;
+  }

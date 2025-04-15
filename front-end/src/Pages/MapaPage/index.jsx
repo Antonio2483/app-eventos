@@ -1,13 +1,76 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
+import callout from '../../services/api';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 import './Style.css';
+import L from 'leaflet';
+import markerIconPng from 'leaflet/dist/images/marker-icon.png';
+import markerShadowPng from 'leaflet/dist/images/marker-shadow.png';
+
+
 // Componentes
 
 import Header from "../../Components/Header"
 import Navbar from "../../Components/Navbar";
 import Perfil from "../../Components/Perfil";
 
+const defaultIcon = L.icon({
+    iconUrl: markerIconPng,
+    shadowUrl: markerShadowPng,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41]
+});
+
+L.Marker.prototype.options.icon = defaultIcon;
+
+function SetViewOnUserLocation({ position }) {
+    const map = useMap();
+    useEffect(() => {
+        if (position) {
+            map.setView(position, 13);
+        }
+    }, [position, map]);
+    return null;
+}
+
+function RecenterMap({ position, onDone }) {
+    const map = useMap();
+
+    useEffect(() => {
+        if (position) {
+            map.setView(position, 13);
+            onDone(); // chama callback pra resetar a flag
+        }
+    }, [position, map, onDone]);
+
+    return null;
+}
+
 export default function Mapa() {
+
+    const [userPosition, setUserPosition] = useState(null);
+    const [eventos, setEventos] = useState([]);
+    const [recenter, setRecenter] = useState(false);
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                setUserPosition([pos.coords.latitude, pos.coords.longitude]);
+            },
+            (err) => {
+                console.error(err);
+            }
+        );
+
+        callout.get('http://localhost:5000/eventos/obterTodosEventosPublicos')
+            .then(response => {
+
+                const data = response.data;
+                setEventos(data)
+
+            })
+            .catch(error => console.error('Erro ao buscar eventos:', error));
+    }, []);
 
     return (
         <div className="mapa-page">
@@ -15,8 +78,43 @@ export default function Mapa() {
             <Header title="Mapa de eventos" />
             <main className="mapa-content">
 
-                <p>Mapa de Eventos</p>
+                <MapContainer center={userPosition || [-23.55052, -46.633308]} zoom={13} style={{ height: "100%", width: "100%" }}>
 
+                    <TileLayer
+                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    {eventos.map((evento, i) => (
+                        <Marker
+                            key={i}
+                            position={[
+                                evento.localizacao.coordinates[1], // latitude
+                                evento.localizacao.coordinates[0], // longitude
+                            ]}
+                        >
+                            <Popup>
+                                <strong>{evento.titulo}</strong><br />
+                                {evento.localizacao.endereco}
+                            </Popup>
+                        </Marker>
+
+                    ))}
+                    <SetViewOnUserLocation position={userPosition} />
+                    {recenter && (
+                        <RecenterMap
+                            position={userPosition}
+                            onDone={() => setRecenter(false)} // reset a flag depois de recenter
+                        />
+                    )}
+
+                </MapContainer>
+                {/* Botão flutuante */}
+                {userPosition && (
+                <button className="recentralizar-mapa-button"
+                    onClick={() => setRecenter(true)}
+                >
+                    Centralizar em mim
+                </button>)}
             </main>
             <Perfil />
         </div>
