@@ -4,6 +4,8 @@ import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import callout from '../../services/api';
+
 
 //Components 
 import Header from "../../Components/Header"
@@ -37,8 +39,30 @@ const eventosIniciais = [
 ];
 
 export default function Calendario() {
-    const [eventos, setEventos] = useState(eventosIniciais);
+    const [eventos, setEventos] = useState();
     const [currentDate, setCurrentDate] = useState(new Date());
+    useEffect(() => {
+        callout.get('http://localhost:5000/inscricao/GetInscricaoUser')
+            .then(response => {
+                const inscricoes = response.data;
+
+                const eventosParseados = inscricoes.map(inscricao => {
+                    const evento = inscricao.evento;
+                    const data = new Date(evento.dataMarcada);
+                    return {
+                        title: evento.titulo,
+                        start: data,
+                        end: new Date(data.getTime() + 60 * 60 * 1000), 
+                        inscricaoId: inscricao._id,
+                        status: inscricao.status 
+                    };
+                });
+
+                setEventos(eventosParseados);
+
+            })
+            .catch(error => console.error('Erro ao buscar eventos:', error));
+    }, []);
 
     return (
         <div className="calendario-page">

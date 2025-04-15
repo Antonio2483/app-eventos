@@ -15,3 +15,5 @@ router.get('/GetInscricaoUser',verificarToken, getInscricoesPorUsuario)
 router.get('/GetInscricaoEvento/:id',verificarToken, getInscricoesPorEvento)
 
 router.patch('/cancelarInscricao/:id', verificarToken, cancelarInscricao);
+
+module.exports = router;
