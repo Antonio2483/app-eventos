@@ -62,11 +62,22 @@ export default function Mapa() {
             }
         );
 
-        callout.get('http://localhost:5000/eventos/obterTodosEventosPublicos')
+        callout.get('http://localhost:5000/inscricao/GetInscricaoUser')
             .then(response => {
+                const inscricoes = response.data;
 
-                const data = response.data;
-                setEventos(data)
+                const eventosParseados = inscricoes.map(inscricao => {
+                    const evento = inscricao.evento;
+                    const data = new Date(evento.dataMarcada);
+                    return {
+                        titulo: evento.titulo,
+                        endereco: evento.localizacao.endereco,
+                        latitude: evento.localizacao.coordinates[1],
+                        longitude: evento.localizacao.coordinates[0]
+                    };
+                });
+
+                setEventos(eventosParseados);
 
             })
             .catch(error => console.error('Erro ao buscar eventos:', error));
@@ -88,13 +99,13 @@ export default function Mapa() {
                         <Marker
                             key={i}
                             position={[
-                                evento.localizacao.coordinates[1], // latitude
-                                evento.localizacao.coordinates[0], // longitude
+                                evento.latitude, // latitude
+                                evento.longitude, // longitude
                             ]}
                         >
                             <Popup>
                                 <strong>{evento.titulo}</strong><br />
-                                {evento.localizacao.endereco}
+                                {evento.endereco}
                             </Popup>
                         </Marker>
 

@@ -25,19 +25,6 @@ const localizer = dateFnsLocalizer({
     locales,
 });
 
-const eventosIniciais = [
-    {
-        title: 'Reunião com equipe',
-        start: new Date(2025, 3, 15, 10, 0),
-        end: new Date(2025, 3, 15, 11, 0),
-    },
-    {
-        title: 'Consulta médica',
-        start: new Date(2025, 3, 16, 14, 30),
-        end: new Date(2025, 3, 16, 15, 30),
-    },
-];
-
 export default function Calendario() {
     const [eventos, setEventos] = useState();
     const [currentDate, setCurrentDate] = useState(new Date());

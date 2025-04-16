@@ -30,20 +30,90 @@ body {
     height: 100%;
 }
 
-.home-painel-filtros{
+.home-painel-filtros {
     padding: 30px 30px;
+    display: flex;
 }
 
-.home-painel-filtros-botao{
+.home-painel-filtros-botao {
     border-radius: 10px;
     border: 1px solid #cda6d2;
     color: #cda6d2;
     background-color: white;
     padding: 10px;
-    margin-right:20px;
+    margin-right: 20px;
 }
 
 .home-painel-filtros-botao:hover {
     background-color: #cda6d2;
     color: white;
-  }
+}
+
+.home-painel-filtros-botao-container {
+    /* background-color: blue; */
+    flex: 2;
+}
+
+.home-painel-filtros-slider-container {
+    /* background-color: yellow; */
+    flex: 1;
+    display: flex;
+    align-items: center;
+
+}
+
+.home-painel-filtros-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.home-painel-filtros-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #04AA6D;
+    cursor: pointer;
+}
+
+.home-painel-filtros-slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #04AA6D;
+    cursor: pointer;
+}
+
+.filtros-slider-output{
+    /* background-color: red; */
+    padding: 10px;
+    font-size: 20px;
+}
+
+.home-painel-filtros-botao.selecionado {
+    background-color: #cda6d2;
+    color: white;
+}
+
+.home-loading{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-eventos-nao-encontrado{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
