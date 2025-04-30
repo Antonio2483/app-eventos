@@ -40,13 +40,15 @@ const usuarioSchema = new mongoose.Schema({
             type: Date,
             required: true
         },
-        cidade:{
+        telefone:{
             type: String,
             required: true
         },
+        cidade:{
+            type: String,
+        },
         estado:{
             type: String,
-            required: true,
             match: /^[A-Za-z]{2}$/
         },
     },

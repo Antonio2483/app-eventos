@@ -48,7 +48,7 @@ html, body {
     padding: 20px;
 }
 
-.input {
+.input-login {
     background-color: #cda6d2;
     border: none;
     padding: 20px;
@@ -76,3 +76,11 @@ html, body {
     background-color: black; 
     color: #cda6d2;
   }
+
+.criar-conta-div{
+    /* background-color: blue; */
+    padding-top: 10px;
+    width: 50%;
+    text-align: left!important;
+  }
+

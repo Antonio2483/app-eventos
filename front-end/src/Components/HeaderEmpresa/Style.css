@@ -1,0 +1,42 @@
+/* Header.css */
+
+.header-empresa-container {
+    position: fixed;
+    top: 0;
+    left: 0;/* pra não cobrir a navbar */
+    right: 0;
+    height: 60px; /* define altura fixa */
+    background-color: white;
+    color: #cda6d2;
+    /* padding: 10px 20px; */
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #cda6d2;
+    z-index: 20;
+}
+
+.header-empresa-button-container{
+    border-right: 2px solid #cda6d2;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    margin-right: 20px;
+}
+
+.header-empresa-button-link{
+    height: 100%;
+    width: 100%;
+}
+
+.headerempresa-btn-icon{
+    height: 100%;
+    width: 100%;
+}
+
+.headerempresa-btn-icon:hover{
+    background-color: #cda6d2;
+    color:white
+}

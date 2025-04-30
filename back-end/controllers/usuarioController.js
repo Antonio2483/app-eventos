@@ -4,19 +4,15 @@ const jwt =  require('jsonwebtoken');
 require('dotenv').config();
 
 // Função de token para validação
-const gerarToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '24h' }); 
+const gerarToken = (id, tipo) => {
+    return jwt.sign({ id, tipo }, process.env.JWT_SECRET, { expiresIn: '24h' }); 
 };
 
 const registrarUsuario = async (req, res) =>{
     try{
         const {email, senha, tipo, pessoaData, empresaData} = req.body;
 
-        console.log('Email', email);
-        console.log('senha', senha);
-        console.log('tipo', tipo);
-        console.log('pessoaData', pessoaData);
-        console.log('empresaData', empresaData);
+        
         // Verificar o email
 
         const usuarioExistente = await Usuario.findOne({email});
@@ -64,7 +60,7 @@ const logarUsuario = async (req, res) =>{
             return res.status(401).json({error:"Email ou senha incorretos"});
         }
 
-        const token = gerarToken(usuario._id);
+        const token = gerarToken(usuario._id, usuario.tipo);
 
         res.status(201).json({message:"Usuário logado com sucesso!",auth:token})
         

@@ -4,13 +4,19 @@ const verificarToken = require('../middlewares/authMiddleware');
 const {
     getTodosEventosPublicos,
     criarEvento,
-    getEventosPorFiltro
+    getEventosPorFiltro,
+    getEventosUser,
+    getEventoId
 } = require('../controllers/eventosController');
 
 router.get('/obterTodosEventosPublicos', verificarToken, getTodosEventosPublicos);
 
+router.get('/obterEventosUser', verificarToken, getEventosUser)
+
 router.post('/criarEvento', verificarToken, criarEvento);
 
 router.post('/obterEventosFiltro', verificarToken, getEventosPorFiltro);
+
+router.get('/obterEvento/:id',verificarToken, getEventoId)
 
 module.exports = router;

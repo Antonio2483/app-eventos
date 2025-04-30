@@ -141,7 +141,9 @@ export default function Home() {
                             </div>
                         ) : (
                             eventos.map((evento, index) => (
-                                <EventoCard key={index} titulo={evento.titulo} descricao={evento.descricao} />
+                                <EventoCard key={index} titulo={evento.titulo}>
+                                    {evento.descricao}
+                                </EventoCard>
                             ))
                         )}
                     </div>

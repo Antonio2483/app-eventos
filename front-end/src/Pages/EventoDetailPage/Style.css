@@ -1,0 +1,41 @@
+.EventoDetail-page {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.EventoDetail-content {
+    position: absolute;
+    margin-right: 30%;
+    margin-left: 60px;
+    margin-top: 30px;
+    /* espaço do perfil */
+    min-height: calc(100vh - 60px);
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 60px 0 0 0px;
+    width: 66%;
+    height: 100%;
+}
+
+.divCard-body {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid #cda6d2;
+    margin-bottom: 30px;
+    width: 95%;
+    max-width: 1200px;
+}
+
+.divCard-header {
+    background-color: #cda6d2;
+    display: flex;
+    align-items: center;
+    color: black;
+    font-size: 25px;
+    padding: 20px;
+}
+
+.divCard-descricao {
+    padding: 10px 20px;
+    text-align: justify;
+}

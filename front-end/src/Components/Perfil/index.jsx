@@ -27,7 +27,8 @@ export default function Perfil() {
                     console.log("idade: ", idade)
                     setUser({ data, idade })
 
-                    console.log("user: ", user)
+                } else {
+                    setUser({ data })
                 }
             })
             .catch(error => console.error('Erro ao buscar usuario:', error));
@@ -37,37 +38,71 @@ export default function Perfil() {
         <div className="perfil-container">
             <div className="perfil-body">
                 <img src='/img/user-template.png' className='perfil-img'></img>
-                <table>
-                    <tr>
-                        <td colSpan={2} className='perfil-nomeUsuario'>
-                            {user.data?.pessoaData?.nome} {user.data?.pessoaData?.sobrenome}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Idade
-                        </td>
-                        <td className='perfil-td-direita'>
-                            {user.idade}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Cidade:
-                        </td>
-                        <td className='perfil-td-direita'>
-                            {user.data?.pessoaData?.cidade}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Estado:
-                        </td>
-                        <td className='perfil-td-direita'>
-                            {user.data?.pessoaData?.estado}
-                        </td>
-                    </tr>
-                </table>
+                {user.data?.tipo == "Pessoa" ? (
+                    <table>
+                        <tr>
+                            <td colSpan={2} className='perfil-nomeUsuario'>
+                                {user.data?.pessoaData?.nome} {user.data?.pessoaData?.sobrenome}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Idade
+                            </td>
+                            <td className='perfil-td-direita'>
+                                {user.idade}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Cidade:
+                            </td>
+                            <td className='perfil-td-direita'>
+                                {user.data?.pessoaData?.cidade}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Estado:
+                            </td>
+                            <td className='perfil-td-direita'>
+                                {user.data?.pessoaData?.estado}
+                            </td>
+                        </tr>
+                    </table>
+                ) : (
+                    <table>
+                        <tr>
+                            <td colSpan={2} className='perfil-nomeUsuario'>
+                             {user.data?.empresaData?.nomeFantasia}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                CNPJ:
+                            </td>
+                            <td className='perfil-td-direita'>
+                                {user.data?.empresaData?.cnpj}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Cidade:
+                            </td>
+                            <td className='perfil-td-direita'>
+                                {user.data?.pessoaData?.cidade}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Estado:
+                            </td>
+                            <td className='perfil-td-direita'>
+                                {user.data?.pessoaData?.estado}
+                            </td>
+                        </tr>
+                    </table>
+                )}
             </div>
         </div>
     );

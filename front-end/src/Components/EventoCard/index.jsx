@@ -10,7 +10,7 @@ const EventoCard = (props) => (
                 {props.titulo}
             </div>
             <div className="eventoCard-descricao">
-                {props.descricao}
+                {props.children}
             </div>
         </div>
     </div>

@@ -144,5 +144,28 @@ const getEventosPorFiltro = async (req, res) => {
     }
 };
 
+const getEventosUser = async (req, res) => {
+    try {
+        const eventos = await Evento.find({criadoPor: req.usuario.id})
 
-module.exports = { getTodosEventosPublicos, criarEvento, getEventosPorFiltro };
+        res.status(200).json(eventos);
+
+    } catch (error) {
+        console.error('Erro ao buscar eventos públicos:', error);
+        res.status(500).json({ mensagem: 'Erro ao buscar eventos' });
+    }
+};
+
+const getEventoId = async (req, res) => {
+    try {
+        const evento = await Evento.findById(req.params.id);
+        if (!evento) return res.status(404).json({ error: "Evento não encontrado" });
+
+        res.json(evento);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Erro ao buscar evento" });
+    }
+};
+
+module.exports = { getTodosEventosPublicos, criarEvento, getEventosPorFiltro, getEventosUser, getEventoId};

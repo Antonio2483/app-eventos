@@ -1,29 +1,43 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from "../context/AuthContext";
 import PrivateRoute from "./privateRoutes"
+import EventoRoute from "./empresasRoutes"
+import PessoaRoute from './pessoasRoutes';
 // Pages
 
 import Home from '../Pages/HomePage';
 import Login from '../Pages/LoginPage';
 import Mapa from '../Pages/MapaPage';
 import Calendario from '../Pages/CalendarioPage';
+import CriarConta from "../Pages/CriarContaPage"
+import SeusEventos from "../Pages/SeusEventosPage"
+import Redirect from '../Pages/RedirectPage';
+import EventosDetail from '../Pages/EventoDetailPage'
 
 export default function Rotas() {
     return (
         <AuthProvider>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/login" element={<Login />} />
-
                     {/* rotas privadas */}
                     <Route element={<PrivateRoute />}>
-                        <Route path="/home" element={<Home />} />
-                        <Route path="/calendario" element={<Calendario />} />
-                        <Route path="/mapa" element={<Mapa />} />
+                        {/* rotas de pessoa */}
+                        <Route element={<PessoaRoute />}>
+                            <Route path="/home" element={<Home />} />
+                            <Route path="/calendario" element={<Calendario />} />
+                            <Route path="/mapa" element={<Mapa />} />
+                        </Route>
+                        {/* rotas de empresa */}
+                        <Route element={<EventoRoute />}>
+                            <Route path="/eventos/todos" element={<SeusEventos />} />
+                            <Route path="/eventos/:id" element={<EventosDetail />} />
+                        </Route>
                     </Route>
                     {/* paginas publicas */}
-
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/CriarConta" element={<CriarConta />} />
                     <Route path="/" element={<Login />} />
+                    <Route path="/logon" element={<Redirect />} />
 
                 </Routes>
             </BrowserRouter>
