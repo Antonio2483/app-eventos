@@ -9,6 +9,7 @@ import './Style.css';
 
 import Header from "../../Components/HeaderEmpresa"
 import Perfil from "../../Components/Perfil";
+import CriarEventoButton from "../../Components/criarEventoButton";
 
 export default function EventoDetail() {
     const { id } = useParams();
@@ -29,6 +30,7 @@ export default function EventoDetail() {
     return (
         <div className="EventoDetail-page">
             <Header title={evento.titulo} />
+            <CriarEventoButton />
             <main className="EventoDetail-content">
                 <div className="divCard-body">
                     <div className="divCard-header">

@@ -58,7 +58,7 @@ export default function Perfil() {
                                 Cidade:
                             </td>
                             <td className='perfil-td-direita'>
-                                {user.data?.pessoaData?.cidade}
+                                {user.data?.pessoaData?.endereco?.cidade}
                             </td>
                         </tr>
                         <tr>
@@ -66,7 +66,7 @@ export default function Perfil() {
                                 Estado:
                             </td>
                             <td className='perfil-td-direita'>
-                                {user.data?.pessoaData?.estado}
+                                {user.data?.pessoaData?.endereco?.estado}
                             </td>
                         </tr>
                     </table>
@@ -90,7 +90,7 @@ export default function Perfil() {
                                 Cidade:
                             </td>
                             <td className='perfil-td-direita'>
-                                {user.data?.pessoaData?.cidade}
+                                {user.data?.empresaData?.localizacao?.endereco?.cidade}
                             </td>
                         </tr>
                         <tr>
@@ -98,7 +98,7 @@ export default function Perfil() {
                                 Estado:
                             </td>
                             <td className='perfil-td-direita'>
-                                {user.data?.pessoaData?.estado}
+                                {user.data?.empresaData?.localizacao?.endereco?.estado}
                             </td>
                         </tr>
                     </table>

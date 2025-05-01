@@ -73,6 +73,7 @@ const logarUsuario = async (req, res) =>{
 const obterDadosUsuario = async (req, res) =>{
     try{
         const usuario = await Usuario.findById(req.usuario.id);
+        usuario.senha = '';
         
         res.status(201).json(usuario)
 

@@ -16,6 +16,19 @@ const eventoSchema = new mongoose.Schema({
         required: true,
     },
 
+    dataTermino: {
+        type: Date,
+        required: true,
+    },
+
+    mediaValor: {
+        type: Number,
+    },
+
+    gratuito:{
+        type: Boolean,
+    },
+
     privado: {
         type: Boolean,
         default: false,
@@ -43,8 +56,14 @@ const eventoSchema = new mongoose.Schema({
             required: true,
         },
         endereco: {
-            type: String,
-        },
+            rua: String,
+            numero: String,
+            bairro: String,
+            cidade: String,
+            estado: String,
+            cep: String,
+            pais: String
+        }
     },
 
 }, {

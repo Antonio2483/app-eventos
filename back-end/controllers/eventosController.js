@@ -1,4 +1,5 @@
 const Evento = require('../models/eventosModel');
+const Usuario = require('../models/usuarioModel');
 const mongoose = require('mongoose');
 
 
@@ -17,14 +18,19 @@ const getTodosEventosPublicos = async (req, res) => {
 
 const criarEvento = async (req, res) => {
     try {
-        const { titulo, descricao, dataMarcada, localizacao } = req.body
+        const { titulo, descricao, dataMarcada, dataTermino,gratuito, mediaValor } = req.body
+
+        const usuario = await Usuario.findById(req.usuario.id);
 
         const novoEvento = new Evento({
             titulo,
             descricao,
             dataMarcada,
             criadoPor: req.usuario.id,
-            localizacao
+            localizacao: usuario.empresaData.localizacao,
+            dataTermino,
+            gratuito,
+            mediaValor
         });
 
         await novoEvento.save();

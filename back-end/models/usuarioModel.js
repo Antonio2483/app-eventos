@@ -44,13 +44,15 @@ const usuarioSchema = new mongoose.Schema({
             type: String,
             required: true
         },
-        cidade:{
-            type: String,
-        },
-        estado:{
-            type: String,
-            match: /^[A-Za-z]{2}$/
-        },
+        endereco: {
+            rua: String,
+            numero: String,
+            bairro: String,
+            cidade: String,
+            estado: String,
+            cep: String,
+            pais: String
+        }
     },
 
     // Campos específicos da empresa(vazios por padrão)
@@ -61,9 +63,31 @@ const usuarioSchema = new mongoose.Schema({
             type:String,
             unique:true,
             sparse:true
-        }
+        },
+        localizacao: {
+            type: {
+                type: String,
+                enum: ['Point'],
+                required: true,
+            },
+            coordinates: {
+                type: [Number], // [longitude, latitude]
+                required: true,
+            },
+            endereco: {
+                rua: String,
+                numero: String,
+                bairro: String,
+                cidade: String,
+                estado: String,
+                cep: String,
+                pais: String
+            }
+        },
     }
 });
+
+usuarioSchema.index({ 'empresaData.localizacao': '2dsphere' });
 
 // Criptografa a senha antes de salvar no banco
 usuarioSchema.pre('save', async function (next) {

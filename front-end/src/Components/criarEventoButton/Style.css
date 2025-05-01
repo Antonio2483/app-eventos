@@ -1,0 +1,168 @@
+/* Header.css */
+
+.CriarEventoButton-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: #cda6d2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #cda6d2;
+    z-index: 200;
+    height: 100%;
+    width: 100px;
+    padding-left: 30px;
+}
+
+.CriarEventoButton-icon {
+    color: white;
+    background-color: #cda6d2;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 35px;
+    box-shadow: 0 0 0 4px #cda6d2;
+}
+
+.CriarEventoButton-icon:hover {
+    color: #cda6d2;
+    background-color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 35px;
+    box-shadow: 0 0 0 4px #cda6d2;
+}
+
+.criarEventoModal-container, .criarEventoModalConfircacao-container{
+    background-color: rgba(70, 70, 70, 0.425);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 900;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.criarEventoModalConfircacao-container{
+    z-index: 900;
+}
+
+.criarEventoModal-body {
+    background-color: white;
+    width: 900px;
+    height: 500px;
+    border-radius: 20px;
+}
+
+.criarEventoModalConfircacao-body{
+    background-color: white;
+    width: 900px;
+    height: 200px;
+    border-radius: 20px;
+}
+
+.criarEventoModal-header {
+    border-bottom: 4px solid #cda6d2;
+    height: 12%;
+    font-size: 1.5rem;
+    color: #cda6d2;
+    display: flex;
+}
+
+.criarEventoModalConfircacao-header{
+    border-bottom: 4px solid #cda6d2;
+    height: 65px;
+    font-size: 1.5rem;
+    color: #cda6d2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.criarEventoModal-esquerda{
+    padding-top: 10px;
+    padding-left: 20px;
+    height: 100%;
+    flex: 1;
+}
+
+.criarEventoModal-direita{
+    height: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: right;
+    /* padding-right: 20px; */
+}
+
+.fecharModalButton-icon {
+    border-left: 3px solid #cda6d2;
+    width: 50px;
+}
+
+.fecharModalButton-icon:hover {
+    border-left: 3px solid #cda6d2;
+    background-color: #cda6d2;
+    color: white;
+}
+
+.criarEventoModal-content{
+    width: 100%;
+    height: 100%;
+    padding-left: 30px;
+    padding-top: 20px;
+}
+
+.criarEventoModalConfircacao-content {
+    width: 100%;
+    height: 100%;
+    padding-left: 30px;
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.input-criar-evento {
+    border: none;
+    /* padding: 20px; */
+    padding-top: 5px;
+    border: solid 1px grey;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    outline: none;
+    width: 100%;
+}
+
+.criar-evento-mediaPreco:disabled{
+    background-color: rgb(172, 167, 167);
+}
+
+#evento-descricao{
+    border: solid 1px grey;
+}
+
+.criarEventoModal-form{
+    /* font-size: 15px; */
+}
+
+.criar-evento-submit-botao, .criar-evento-limpar-botao, .criar-evento-fechar-modal-confirmacao-botao {
+    border-radius: 10px;
+    border: 1px solid #cda6d2;
+    color: black;
+    background-color: white;
+    padding: 10px;
+    margin-right: 20px;
+    height: 50px;
+}
+
+.criar-evento-submit-botao:hover, .criar-evento-limpar-botao:hover, .criar-evento-fechar-modal-confirmacao-botao:hover {
+    background-color: #cda6d2;
+    color: white;
+}
+
+/* .criarEventoModal-form, .criarEventoModal-form tr, .criarEventoModal-form td{
+    border: 2px solid black;
+} */

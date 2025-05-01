@@ -9,6 +9,7 @@ import './Style.css';
 import Header from "../../Components/HeaderEmpresa"
 import Perfil from "../../Components/Perfil";
 import EventoCard from "../../Components/EventoEmpresaCard"
+import CriarEventoButton from "../../Components/criarEventoButton";
 
 export default function SeusEventos() {
 
@@ -29,7 +30,9 @@ export default function SeusEventos() {
     return (
         <div className="eventosEmpresa-page">
             <Header title="Seus eventos" />
+            <CriarEventoButton />
             <main className="eventosEmpresa-content">
+            
             {eventos.length === 0 ? (
                             <div className="home-eventos-nao-encontrado"> 
                                 <p>Nenhum evento encontrado.</p>
