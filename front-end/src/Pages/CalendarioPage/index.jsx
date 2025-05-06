@@ -29,7 +29,7 @@ export default function Calendario() {
     const [eventos, setEventos] = useState();
     const [currentDate, setCurrentDate] = useState(new Date());
     useEffect(() => {
-        callout.get('http://localhost:5000/inscricao/GetInscricaoUser')
+        callout.post('http://localhost:5000/inscricoes/GetInscricaoUserFiltro/',{status:'confirmado', coordenadas:'none'})
             .then(response => {
                 const inscricoes = response.data;
 
@@ -44,6 +44,8 @@ export default function Calendario() {
                         status: inscricao.status 
                     };
                 });
+
+                console.log("eventos",eventosParseados);
 
                 setEventos(eventosParseados);
 

@@ -18,7 +18,7 @@ connectDB();
 // Usando rotas
 app.use("/eventos", eventosRoutes);
 app.use("/usuarios", usuariosRoutes);
-app.use("/inscricao", inscricaoRoutes);
+app.use("/inscricoes", inscricaoRoutes);
 
 app.get("/", (req, res) => {
     res.send("Servidor está rodando!");

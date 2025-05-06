@@ -4,7 +4,7 @@
   width: 100%;
 }
 
-.eventoCard-body{
+.eventoCard-body {
   border-radius: 20px;
   overflow: hidden;
   border: 2px solid #cda6d2;
@@ -13,22 +13,99 @@
   max-width: 1200px;
 }
 
-.eventoCard-img{
-  width: 50px;       
+.eventoCard-img {
+  width: 50px;
   object-fit: cover;
   border-radius: 50%;
   margin: 10px 16px
 }
 
-.eventoCard-header{
+.eventoCard-header {
   background-color: #cda6d2;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   color: black;
   font-size: 25px;
+  padding-bottom: 10px;
 }
 
-.eventoCard-descricao{
+.eventoCard-header-titulo {
+  display: flex;
+  align-items: center;
+}
+
+.eventoCard-header h1 {
+  font-weight: bold;
+}
+
+.eventoCard-header p {
+  font-size: 20px;
+  margin-left: 20px
+}
+
+.eventoCard-content {
   padding: 10px 20px;
   text-align: justify;
+  display: flex;
+}
+
+.eventoCard-sessao {
+  flex: 1;
+  display: flex;
+  /* background-color: blue; */
+  border-right: 2px solid #cda6d2;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.eventoCard-botao, .eventoCard-botao-cancelar {
+  background-color: #cda6d2;
+  color: white;
+  border-radius: 10px;
+  border: 1px solid #cda6d2;
+  padding: 10px;
+}
+
+.eventoCard-botao-cancelar{
+  background-color: #df6060;
+  border: 1px solid #df6060;
+}
+.eventoCard-sessao h1 {
+  font-weight: bold;
+}
+
+.eventoCard-descricao {
+  padding: 10px 20px;
+  text-align: justify;
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid #cda6d2;
+}
+
+.eventoCard-descricao h1 {
+  font-weight: bold;
+}
+
+.eventoCard-header-titulo-esquerda {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.eventoCard-header-titulo-direita{
+  display: flex;
+  align-items: right;
+  justify-content: right;
+  flex: 1;
+}
+
+.eventoCard-btn-icon{
+  width: 50px;
+  height: 50px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
 }

@@ -35,7 +35,7 @@ body {
     display: flex;
 }
 
-.home-painel-filtros-botao {
+.home-painel-filtros-botao, .eventoCard-modalConfirmacao-button, .eventoCard-modalCancelar-button {
     border-radius: 10px;
     border: 1px solid #cda6d2;
     color: #cda6d2;
@@ -44,7 +44,7 @@ body {
     margin-right: 20px;
 }
 
-.home-painel-filtros-botao:hover {
+.home-painel-filtros-botao:hover, .eventoCard-modalConfirmacao-button:hover, .eventoCard-modalCancelar-button:hover {
     background-color: #cda6d2;
     color: white;
 }
@@ -116,4 +116,62 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 30px;
+}
+
+.eventoCard-modalConfirmacao-container,.eventoCard-modalCancelar-container{
+    background-color: rgba(70, 70, 70, 0.425);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 900;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.eventoCard-modalConfirmacao-body, .eventoCard-modalCancelar-body{
+    background-color: white;
+    width: 900px;
+    height: 200px;
+    border-radius: 20px;
+}
+
+.eventoCard-modalConfirmacao-header, .eventoCard-modalCancelar-header {
+    border-bottom: 4px solid #cda6d2;
+    height: 50px;
+    font-size: 1.5rem;
+    color: #cda6d2;
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+}
+
+.eventoCard-modalConfirmacao-content, .eventoCard-modalCancelar-content{
+    width: 100%;
+    height: 100%;
+    padding-left: 30px;
+    padding-top: 20px;
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+}
+
+.eventoCard-modalConfirmacao-button, .eventoCard-modalCancelar-button{
+    height: 60px;
+}
+
+.eventoCard-modalCancelar-button-sim{
+    border-radius: 10px;
+    background-color: #df6060;
+    border: 1px solid #df6060;
+    color:white;
+    padding: 10px;
+    margin-right: 20px;
+    height: 60px;
+}
+
+.eventoCard-modalCancelar-button-sim:hover{
+    background-color: white;
+    color:#df6060;
 }

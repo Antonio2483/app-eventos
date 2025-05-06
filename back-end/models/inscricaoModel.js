@@ -28,7 +28,13 @@ const inscricaoSchema = new mongoose.Schema({
     timestamps: true
 });
 
-inscricaoSchema.index({ usuario: 1, evento: 1 }, { unique: true });
+inscricaoSchema.index(
+    { usuario: 1, evento: 1 },
+    {
+        unique: true,
+        partialFilterExpression: { status: { $in: ["confirmado", "pendente"] } }
+    }
+)
 
 const Inscricao = mongoose.model('Inscricao', inscricaoSchema);
 

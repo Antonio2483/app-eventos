@@ -1,17 +1,19 @@
 const Inscricao = require("../models/inscricaoModel");
+const Evento = require('../models/eventosModel');
+const mongoose = require('mongoose');
 
 const criarInscricao = async (req, res) => {
 
     try {
 
-        const { eventoId } = req.body;
+        const { eventoId, status } = req.body;
         const usuarioId = req.usuario.id;
 
         // Verifica se já existe
         const inscricaoExistente = await Inscricao.findOne({
             usuario: usuarioId,
             evento: eventoId,
-            status: { $ne: 'cancelado' } 
+            status: status
         });
 
         if (inscricaoExistente) {
@@ -20,7 +22,8 @@ const criarInscricao = async (req, res) => {
 
         const novaInscricao = new Inscricao({
             usuario: usuarioId,
-            evento: eventoId
+            evento: eventoId,
+            status
         });
 
         await novaInscricao.save();
@@ -40,10 +43,65 @@ const getInscricoesPorUsuario = async (req, res) => {
         res.status(200).json(inscricoes);
 
     } catch (error) {
-        console.error('Erro ao buscar eventos públicos:', error);
-        res.status(500).json({ mensagem: 'Erro ao buscar eventos' });
+        console.error('Erro ao buscar inscricoes:', error);
+        res.status(500).json({ mensagem: 'Erro ao buscar inscricoes' });
     }
 };
+
+const getInscricoesPorUsuarioFiltro = async (req, res) => {
+    try {
+        const { coordenadas, status } = req.body; // Esperado: [longitude, latitude]
+
+        const usuarioId = req.usuario.id;
+
+        const inscricoes = await Inscricao.find({
+            usuario: usuarioId,
+            status: status
+        }).populate({
+            path: 'evento',
+            populate: {
+                path: 'criadoPor'
+            }
+        });
+
+        if(coordenadas != 'none'){
+
+        if (!coordenadas || coordenadas.length !== 2) {
+            return res.status(400).json({ mensagem: 'Coordenadas inválidas' });
+        }
+
+        const eventosComDistancia = inscricoes.map(inscricao => {
+            const evento = inscricao.evento;
+
+            // Fórmula de haversine
+            const toRad = (x) => x * Math.PI / 180;
+            const R = 6371000; // Raio da Terra em m
+            const dLat = toRad(evento.localizacao.coordinates[1] - coordenadas[1]);
+            const dLon = toRad(evento.localizacao.coordinates[0] - coordenadas[0]);
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                      Math.cos(toRad(coordenadas[1])) * Math.cos(toRad(evento.localizacao.coordinates[1])) *
+                      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const distancia = R * c; // Distância em m
+
+            return {
+                ...inscricao.toObject(),
+                distancia
+            };
+        });
+            res.status(200).json(eventosComDistancia);
+        }else{
+            res.status(200).json(inscricoes);
+        }
+
+        
+    } catch (error) {
+        console.error('Erro ao buscar inscrições:', error);
+        res.status(500).json({ mensagem: 'Erro ao buscar inscrições' });
+    }
+};
+
+
 
 const getInscricoesPorEvento = async (req, res) => {
     const eventoId = req.params.id;
@@ -79,4 +137,4 @@ const cancelarInscricao = async (req, res) => {
     }
 };
 
-module.exports = {criarInscricao, getInscricoesPorUsuario, getInscricoesPorEvento, cancelarInscricao}
+module.exports = { criarInscricao, getInscricoesPorUsuario, getInscricoesPorEvento, cancelarInscricao, getInscricoesPorUsuarioFiltro }

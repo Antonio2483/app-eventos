@@ -18,7 +18,7 @@ const getTodosEventosPublicos = async (req, res) => {
 
 const criarEvento = async (req, res) => {
     try {
-        const { titulo, descricao, dataMarcada, dataTermino,gratuito, mediaValor } = req.body
+        const { titulo, descricao, dataMarcada, dataTermino, gratuito, mediaValor } = req.body
 
         const usuario = await Usuario.findById(req.usuario.id);
 
@@ -101,7 +101,7 @@ const getEventosPorFiltro = async (req, res) => {
                                 $expr: {
                                     $and: [
                                         { $eq: ['$evento', '$$eventoId'] },
-                                        { $eq: ['$usuario', new mongoose.Types.ObjectId(usuarioId)] }
+                                        { $eq: ['$usuario', new mongoose.Types.ObjectId(usuarioId)] },
                                     ]
                                 }
                             }
@@ -112,7 +112,20 @@ const getEventosPorFiltro = async (req, res) => {
             },
             {
                 $match: {
-                    inscricaoUsuario: { $size: 0 } // só eventos SEM inscrição do usuário
+                    $or: [
+                        { inscricaoUsuario: { $size: 0 } },
+                        {
+                            inscricaoUsuario: {
+                                $not: {
+                                    $elemMatch: {
+                                        status: {
+                                            $in: ["confirmado", "pendente"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
                 }
             },
             {
@@ -131,6 +144,9 @@ const getEventosPorFiltro = async (req, res) => {
                     dataMarcada: 1,
                     localizacao: 1,
                     distancia: 1,
+                    dataTermino: 1,
+                    mediaValor: 1,
+                    gratuito: 1,
                     criadoPor: {
                         tipo: 1,
                         'pessoaData.nome': 1,
@@ -152,7 +168,7 @@ const getEventosPorFiltro = async (req, res) => {
 
 const getEventosUser = async (req, res) => {
     try {
-        const eventos = await Evento.find({criadoPor: req.usuario.id})
+        const eventos = await Evento.find({ criadoPor: req.usuario.id })
 
         res.status(200).json(eventos);
 
@@ -174,4 +190,4 @@ const getEventoId = async (req, res) => {
     }
 };
 
-module.exports = { getTodosEventosPublicos, criarEvento, getEventosPorFiltro, getEventosUser, getEventoId};
+module.exports = { getTodosEventosPublicos, criarEvento, getEventosPorFiltro, getEventosUser, getEventoId };
