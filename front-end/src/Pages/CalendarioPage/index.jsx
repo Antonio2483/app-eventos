@@ -12,6 +12,7 @@ import Header from "../../Components/Header"
 import Navbar from "../../Components/Navbar";
 import Perfil from "../../Components/Perfil";
 import CalendarioToolbarCustom from "../../Components/CalendarioToolbarCustom";
+import EventoModal from "../../Components/EventoModal"
 
 const locales = {
     'pt-BR': ptBR,
@@ -25,10 +26,30 @@ const localizer = dateFnsLocalizer({
     locales,
 });
 
+
+
 export default function Calendario() {
     const [eventos, setEventos] = useState();
+    const [eventoAtual, setEventoAtual] = useState();
+    const [inscricaoAtual, setInscricaoAtual] = useState();
     const [currentDate, setCurrentDate] = useState(new Date());
-    useEffect(() => {
+    const [showModalEvento, setShowModalEvento] = useState(false);
+
+    const handleFecharModal = (event) => {
+        setShowModalEvento(false)
+        setEventoAtual(null);
+        setInscricaoAtual(null)
+        
+    }
+
+    const handleShowModal = (event) => {
+        
+        setEventoAtual(event.eventoObj);
+        setInscricaoAtual(event.inscricaoId)
+        setShowModalEvento(true)
+    }
+
+    const getEventos = () => {
         callout.post('http://localhost:5000/inscricoes/GetInscricaoUserFiltro/',{status:'confirmado', coordenadas:'none'})
             .then(response => {
                 const inscricoes = response.data;
@@ -36,12 +57,14 @@ export default function Calendario() {
                 const eventosParseados = inscricoes.map(inscricao => {
                     const evento = inscricao.evento;
                     const data = new Date(evento.dataMarcada);
+                    const dataTermino = new Date(evento.dataTermino);
                     return {
                         title: evento.titulo,
                         start: data,
-                        end: new Date(data.getTime() + 60 * 60 * 1000), 
+                        end: dataTermino,
                         inscricaoId: inscricao._id,
-                        status: inscricao.status 
+                        status: inscricao.status,
+                        eventoObj : evento
                     };
                 });
 
@@ -51,10 +74,22 @@ export default function Calendario() {
 
             })
             .catch(error => console.error('Erro ao buscar eventos:', error));
+    }
+
+    useEffect(() => {
+        getEventos();
     }, []);
 
     return (
         <div className="calendario-page">
+            {showModalEvento && (
+            <EventoModal 
+            isConfirmado = "true"
+            evento = {eventoAtual}
+            inscricaoId = {inscricaoAtual}
+            handleFecharModal = {handleFecharModal}
+            atualizarEventos = {getEventos}
+            />)}
             <Navbar />
             <Header title="Agenda" />
             <main className="calendario-content">
@@ -68,6 +103,7 @@ export default function Calendario() {
                     date={currentDate} // <- controla a data exibida
                     onNavigate={(newDate) => setCurrentDate(newDate)}
                     defaultView="month"
+                    onSelectEvent={handleShowModal}
                     components={{
                         toolbar: CalendarioToolbarCustom,
                     }}

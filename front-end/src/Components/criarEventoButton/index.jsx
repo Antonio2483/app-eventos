@@ -15,13 +15,13 @@ export default function CriarEventoButton() {
     const [descricao, setDescricao] = useState("");
     const [dataInicio, setDataInicio] = useState("");
     const [dataTermino, setDataTermino] = useState("");
-    const [mediaPreco, setMediaPreco] = useState("");
+    const [mediaValor, setMediaValor] = useState("");
     const [gratuito, setGratuito] = useState(false);
     const [erro, setErro] = useState(false);
 
     const handleCriarEvento = (event) => {
 
-        callout.post('http://localhost:5000/eventos/criarEvento', { titulo, descricao, dataMarcada: dataInicio, dataTermino, mediaPreco, gratuito })
+        callout.post('http://localhost:5000/eventos/criarEvento', { titulo, descricao, dataMarcada: dataInicio, dataTermino, mediaValor, gratuito })
             .then(response => {
                 handleLimparFormEvento()
                 setShowModalConfirmacao(true)
@@ -40,7 +40,7 @@ export default function CriarEventoButton() {
         setDescricao("");
         setDataInicio("");
         setDataTermino("");
-        setMediaPreco("");
+        setMediaValor("");
         setGratuito("");
     };
 
@@ -52,7 +52,7 @@ export default function CriarEventoButton() {
     const handleGratuitoCheck = (event) => {
 
         if (event.target.checked) {
-            setMediaPreco("");
+            setMediaValor("");
         }
 
         setGratuito(event.target.checked)
@@ -109,7 +109,7 @@ export default function CriarEventoButton() {
                                         Média de preço:
                                     </td>
                                     <td>
-                                        <input className="input-criar-evento criar-evento-mediaPreco" type="number" placeholder="Valor" disabled={gratuito} value={mediaPreco} onChange={(e) => setMediaPreco(e.target.value)} />
+                                        <input className="input-criar-evento criar-evento-mediaValor" type="number" placeholder="Valor" disabled={gratuito} value={mediaValor} onChange={(e) => setMediaValor(e.target.value)} />
                                     </td>
                                 </tr>
                                 <tr>

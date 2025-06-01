@@ -18,6 +18,9 @@ export default function CriarConta() {
     const [email, setEmail] = useState("");
     const [telefone, setTelefone] = useState("");
     const [senha, setSenha] = useState("");
+    const [cidade, setCidade] = useState("");
+    const [estado, setEstado] = useState("");
+    const [cep, setCep] = useState("");
     const [erro, setErro] = useState("");
     const [contaCriada, setContaCriada] = useState("");
 
@@ -25,10 +28,17 @@ export default function CriarConta() {
         setErro("");
 
         let pessoaData = {};
-        pessoaData.nome = nome;
-        pessoaData.sobrenome = sobrenome;
+        pessoaData.nomeCompleto = nome;
         pessoaData.dataNascimento = nascimento;
         pessoaData.telefone = telefone;
+
+        let endereco = {};
+
+        endereco.cep = cep;
+        endereco.estado = estado;
+        endereco.cidade = cidade;
+
+        pessoaData.endereco = endereco;
 
         const tipo = 'Pessoa';
 
@@ -75,6 +85,16 @@ export default function CriarConta() {
         setContaCriada(false)
     }, []);
 
+    const handleCepChange = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
+
+        if (value.length > 5) {
+            value = value.slice(0, 5) + '-' + value.slice(5, 8);
+        }
+
+        setCep(value);
+    };
+
     return (
         <div className="criar-conta-page">
             <div className="criar-conta-container">
@@ -88,15 +108,13 @@ export default function CriarConta() {
                         <div className="criar-conta-form">
                             <p className="title-font criar-conta-title">Só precisamos de alguns dados...</p>
                             {erro && <p style={{ color: "red" }}>{erro}</p>}
-                            <div className="criar-conta-nomecompleto-div">
-                                <input className="input-criar-conta criar-conta-nome" type="text" placeholder="Nome" onChange={(e) => setNome(e.target.value)} />
-                                <input className="input-criar-conta criar-conta-sobrenome" type="text" placeholder="Sobrenome" onChange={(e) => setSobrenome(e.target.value)} />
-                            </div>
+                            <input className="input-criar-conta criar-conta-email" type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+                            <input className="input-criar-conta criar-conta-senha" type="password" placeholder="Senha" onChange={(e) => setSenha(e.target.value)} />
+                            <input className="input-criar-conta criar-conta-nome" type="text" placeholder="Nome Completo" onChange={(e) => setNome(e.target.value)} />
                             <div className="criar-conta-dataNascimento-div">
                                 Data de nascimento:
                                 <input className="input-criar-conta criar-conta-nascimento" type="date" placeholder="Data de nascimento" onChange={(e) => setNascimento(e.target.value)} />
                             </div>
-                            <input className="input-criar-conta criar-conta-email" type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
                             <input className="input-criar-conta criar-conta-telefone"
                                 type="tel"
                                 value={telefone}
@@ -104,7 +122,45 @@ export default function CriarConta() {
                                 placeholder="(11) 91234-5678"
                                 maxLength={15}
                             />
-                            <input className="input-criar-conta criar-conta-senha" type="password" placeholder="Senha" onChange={(e) => setSenha(e.target.value)} />
+                            <div className="criar-conta-endereco-div">
+                                <input className="input-criar-conta criar-conta-cep" type="text" placeholder="CEP" maxlength="9" value={cep}
+                                    onChange={handleCepChange} />
+                                <div className="criar-conta-cidadeEstado-div">
+                                    <select id="estado" name="estado" className="input-criar-conta criar-conta-estado" onChange={(e) => setEstado(e.target.value)}>
+                                        <option value="" disabled selected>Estado</option>
+                                        <option value="AC">Acre</option>
+                                        <option value="AL">Alagoas</option>
+                                        <option value="AP">Amapá</option>
+                                        <option value="AM">Amazonas</option>
+                                        <option value="BA">Bahia</option>
+                                        <option value="CE">Ceará</option>
+                                        <option value="DF">Distrito Federal</option>
+                                        <option value="ES">Espírito Santo</option>
+                                        <option value="GO">Goiás</option>
+                                        <option value="MA">Maranhão</option>
+                                        <option value="MT">Mato Grosso</option>
+                                        <option value="MS">Mato Grosso do Sul</option>
+                                        <option value="MG">Minas Gerais</option>
+                                        <option value="PA">Pará</option>
+                                        <option value="PB">Paraíba</option>
+                                        <option value="PR">Paraná</option>
+                                        <option value="PE">Pernambuco</option>
+                                        <option value="PI">Piauí</option>
+                                        <option value="RJ">Rio de Janeiro</option>
+                                        <option value="RN">Rio Grande do Norte</option>
+                                        <option value="RS">Rio Grande do Sul</option>
+                                        <option value="RO">Rondônia</option>
+                                        <option value="RR">Roraima</option>
+                                        <option value="SC">Santa Catarina</option>
+                                        <option value="SP">São Paulo</option>
+                                        <option value="SE">Sergipe</option>
+                                        <option value="TO">Tocantins</option>
+                                    </select>
+                                    <input className="input-criar-conta criar-conta-cidade" type="text" placeholder="Cidade" onChange={(e) => setCidade(e.target.value)} />
+                                </div>
+                            </div>
+
+
                             <button className="button criar-conta-button" onClick={handleCriarConta}>Criar conta</button>
                         </div>) : (
                         <div className="criar-conta-contaCriada">

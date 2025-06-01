@@ -11,6 +11,7 @@ app.use(express.json());
 const eventosRoutes = require("./routes/eventosRoutes");
 const usuariosRoutes = require("./routes/usuariosRoutes");
 const inscricaoRoutes = require("./routes/inscricoesRoute");
+const requisicaoRoutes = require("./routes/usuarioUpgradeRequestRoutes");
 
 // Conectar com o BD na nuvem
 connectDB();
@@ -19,6 +20,8 @@ connectDB();
 app.use("/eventos", eventosRoutes);
 app.use("/usuarios", usuariosRoutes);
 app.use("/inscricoes", inscricaoRoutes);
+app.use("/requisicoes", requisicaoRoutes);
+
 
 app.get("/", (req, res) => {
     res.send("Servidor está rodando!");

@@ -28,11 +28,7 @@ const usuarioSchema = new mongoose.Schema({
     // Campos específicos da pessoa
 
     pessoaData: {
-        nome: {
-            type: String,
-            required: true
-        },
-        sobrenome:{
+        nomeCompleto: {
             type: String,
             required: true
         },
@@ -59,6 +55,11 @@ const usuarioSchema = new mongoose.Schema({
 
     empresaData:{
         nomeFantasia: String,
+        nomeEmpresa: String,
+        emailResponsavel: String,
+        celular: String,
+        telefone: String,
+        site: String,
         cnpj: {
             type:String,
             unique:true,
@@ -68,11 +69,9 @@ const usuarioSchema = new mongoose.Schema({
             type: {
                 type: String,
                 enum: ['Point'],
-                required: true,
             },
             coordinates: {
                 type: [Number], // [longitude, latitude]
-                required: true,
             },
             endereco: {
                 rua: String,
@@ -81,7 +80,8 @@ const usuarioSchema = new mongoose.Schema({
                 cidade: String,
                 estado: String,
                 cep: String,
-                pais: String
+                pais: String,
+                complemento: String
             }
         },
     }

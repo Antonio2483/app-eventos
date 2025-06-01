@@ -24,8 +24,10 @@ export default function Home() {
     const [erroInscricao, setErroInscricao] = useState(false);
     const [erroCancelar, setErroCancelar] = useState(false);
     const [isInscricao, setIsInscricao] = useState(false);
+    const [isInscricaoModal, setIsInscricaoModal] = useState(false);
     const [statusInscricao, setStatusInscricao] = useState(false);
-    const [eventoConfirmado, setEventoConfirmado] = useState(false); 
+    const [eventoConfirmado, setEventoConfirmado] = useState(false);
+    const [localizacaoUser, setLocalizacaoUser] = useState([]);
 
     const fetchEventos = () => {
         setLoading(true);
@@ -59,9 +61,11 @@ export default function Home() {
 
         navigator.geolocation.getCurrentPosition(
             (pos) => {
-                const coordenadas = [-46.9144444, -22.2888889];//[pos.coords.longitude, pos.coords.latitude];
+                const coordenadas = [-46.942290895066165, -22.37022132194142];//[pos.coords.longitude, pos.coords.latitude];
+                
+                setLocalizacaoUser(coordenadas);
                 const area = {
-                    coordenadas,
+                    coordenadas: coordenadas,
                     raio: Number(raio) * 1000
                 };
 
@@ -102,8 +106,13 @@ export default function Home() {
         setFiltro(tipo);
     };
 
-    const abrirModalConfirmacao = (idEvento) => {
-        setEventoSelecionadoId(idEvento);
+    const abrirModalConfirmacao = (idEvento,idInscricao) => {
+        if(idInscricao){
+            setIsInscricaoModal(true);
+            setEventoSelecionadoId(idInscricao);
+        }else{
+            setEventoSelecionadoId(idEvento);
+        }
         setShowModalConfirmacaoEvento(true);
 
     };
@@ -111,6 +120,7 @@ export default function Home() {
     const abrirModalCancelar = (idInscricao) => {
         setEventoSelecionadoId(idInscricao);
         setShowModalCancelarEvento(true);
+        
 
     };
 
@@ -118,6 +128,7 @@ export default function Home() {
         setShowModalCancelarEvento(false)
         setShowModalConfirmacaoEvento(false);
         setEventoSelecionadoId(null);
+        setIsInscricaoModal(false);
     };
 
     const criarInscricao = (status) => {
@@ -148,6 +159,26 @@ export default function Home() {
             });
     }
 
+    const HandleconfirmarInscricao = () => {
+        if(isInscricaoModal){
+            confirmarInscricao();
+        }else{
+            criarInscricao("confirmado")
+        }
+    }
+
+    const confirmarInscricao = () => {
+        callout.patch(`http://localhost:5000/inscricoes/confirmarInscricao/${eventoSelecionadoId}`)
+            .then(response => {
+                fetchEventos();
+                fecharModal();
+            })
+            .catch(error => {
+                alert("Erro ao confirmar a inscrição");
+                console.log(error)
+            });
+    }
+
     const handleAtualizarEventos = () => {
         fetchEventos(filtro)
     };
@@ -168,9 +199,7 @@ export default function Home() {
 
     const handleGetInscricao = () => {
         console.log('BUSCANDO INSCRIÇÃO')
-        navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                const coordenadas = [pos.coords.longitude, pos.coords.latitude];
+                const coordenadas = localizacaoUser;
                 callout.post('http://localhost:5000/inscricoes/GetInscricaoUserFiltro/',{status:statusInscricao, coordenadas})
                     .then(response => {
                         console.log("inscricao", response.data);
@@ -187,17 +216,7 @@ export default function Home() {
                     .finally(() => {
                         setLoading(false);
                     });
-            },
-            (err) => {
-                console.error('Erro ao obter localização:', err);
-                setLoading(false);
-            },
-            {
-                enableHighAccuracy: true, 
-                timeout: 10000, 
-                maximumAge: 0 
-            }
-        );
+
     };
 
     return (
@@ -210,7 +229,7 @@ export default function Home() {
                         </div>
                         <div className="eventoCard-modalConfirmacao-content">
                             {erroInscricao && <p style={{ color: "red" }}>{erroInscricao}</p>}
-                            <button className="eventoCard-modalConfirmacao-button" onClick={() => criarInscricao("confirmado")}>Sim</button>
+                            <button className="eventoCard-modalConfirmacao-button" onClick={() => HandleconfirmarInscricao()}>Sim</button>
                             <button className="eventoCard-modalConfirmacao-button" onClick={fecharModal}>Não</button>
                         </div>
                     </div>

@@ -14,11 +14,14 @@
 }
 
 .perfil-body{
-  width: 60%;
+  width: 90%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 60px;
 }
 
 .perfil-img{
@@ -48,6 +51,31 @@
   padding: 10px 0 10px 0;
 }
 
+.perfil-td-botao-membro{
+  width: 100%;
+  text-align: center;
+}
+
+.perfil-botao, .salvar-botao, .cancelar-botao {
+  background-color: #cda6d2;
+  color: white;
+  border-radius: 10px;
+  border: 1px solid #cda6d2;
+  padding: 10px;
+}
+
+.cancelar-botao{
+  margin-left: 20px;
+  background-color: red;
+}
+
+.input-atualizar-conta{
+  border: solid 1px grey;
+}
+
+.salvar-botao{
+
+}
 
 /* .perfil-body table, th, td {
   border:1px solid black;

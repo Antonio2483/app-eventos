@@ -6,7 +6,11 @@ const {
     getInscricoesPorUsuario, 
     getInscricoesPorEvento, 
     cancelarInscricao,
-    getInscricoesPorUsuarioFiltro
+    getInscricoesPorUsuarioFiltro,
+    confirmarInscricao,
+    totalInscritos, 
+    mediaInscricoesPorEvento, 
+    inscricoesGrafico
 } = require('../controllers/inscricaoController');
 
 router.post('/criarInscricao',verificarToken, criarInscricao);
@@ -18,5 +22,13 @@ router.get('/GetInscricaoEvento/:id',verificarToken, getInscricoesPorEvento)
 router.post('/GetInscricaoUserFiltro',verificarToken, getInscricoesPorUsuarioFiltro)
 
 router.patch('/cancelarInscricao/:id', verificarToken, cancelarInscricao);
+
+router.patch('/confirmarInscricao/:id', verificarToken, confirmarInscricao);
+
+router.get('/getInfoGrafico', verificarToken, inscricoesGrafico);
+
+router.get('/totalInscritosStatus', totalInscritos);
+
+router.get('/mediaInscricoes', mediaInscricoesPorEvento);
 
 module.exports = router;

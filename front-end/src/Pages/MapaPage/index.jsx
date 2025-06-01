@@ -13,6 +13,8 @@ import markerShadowPng from 'leaflet/dist/images/marker-shadow.png';
 import Header from "../../Components/Header"
 import Navbar from "../../Components/Navbar";
 import Perfil from "../../Components/Perfil";
+import EventoModal from "../../Components/EventoModal"
+
 
 const defaultIcon = L.icon({
     iconUrl: markerIconPng,
@@ -46,16 +48,23 @@ function RecenterMap({ position, onDone }) {
     return null;
 }
 
+
+
 export default function Mapa() {
 
     const [userPosition, setUserPosition] = useState(null);
     const [eventos, setEventos] = useState([]);
     const [recenter, setRecenter] = useState(false);
+    const [eventoAtual, setEventoAtual] = useState();
+    const [inscricaoAtual, setInscricaoAtual] = useState();
+    const [showModalEvento, setShowModalEvento] = useState(false);
+    const [isConfirmado, setIsConfirmado] = useState(false);
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
             (pos) => {
-                setUserPosition([pos.coords.latitude, pos.coords.longitude]);
+                // setUserPosition([pos.coords.latitude, pos.coords.longitude]);
+                setUserPosition([-22.37022132194142, -46.942290895066165,]);
             },
             (err) => {
                 console.error(err);
@@ -67,7 +76,13 @@ export default function Mapa() {
             }
         );
 
-        callout.post('http://localhost:5000/inscricoes/GetInscricaoUserFiltro/',{status:'confirmado', coordenadas:'none'})
+        getEventos();
+        
+    }, []);
+
+    const getEventos = () => {
+        handleFecharModal();
+        callout.post('http://localhost:5000/inscricoes/GetInscricaoUserFiltro/',{status:'confirmado;pendente', coordenadas:'none'})
             .then(response => {
                 const inscricoes = response.data;
 
@@ -78,7 +93,10 @@ export default function Mapa() {
                         titulo: evento.titulo,
                         endereco: evento.localizacao.endereco,
                         latitude: evento.localizacao.coordinates[1],
-                        longitude: evento.localizacao.coordinates[0]
+                        longitude: evento.localizacao.coordinates[0],
+                        inscricaoId: inscricao._id,
+                        status: inscricao.status,
+                        eventoObj : evento
                     };
                 });
 
@@ -86,10 +104,37 @@ export default function Mapa() {
 
             })
             .catch(error => console.error('Erro ao buscar eventos:', error));
-    }, []);
+        
+    }
+
+    const handleShowModal = (event) => {
+        console.log("EVENTO: ",event.eventoObj)
+        if(event.status == "confirmado"){
+            setIsConfirmado(true);
+        }
+        setEventoAtual(event.eventoObj);
+        setInscricaoAtual(event.inscricaoId)
+        setShowModalEvento(true)
+    }
+
+    const handleFecharModal = () => {
+        setShowModalEvento(false)
+        setEventoAtual(null);
+        setInscricaoAtual(null);
+        setIsConfirmado(false);
+        
+    }
 
     return (
         <div className="mapa-page">
+            {showModalEvento && (
+                        <EventoModal 
+                        evento = {eventoAtual}
+                        inscricaoId = {inscricaoAtual}
+                        handleFecharModal = {handleFecharModal}
+                        isConfirmado={isConfirmado}
+                        atualizarEventos = {getEventos}
+                        />)}
             <Navbar />
             <Header title="Mapa de eventos" />
             <main className="mapa-content">
@@ -107,13 +152,10 @@ export default function Mapa() {
                                 evento.latitude, // latitude
                                 evento.longitude, // longitude
                             ]}
-                        >
-                            <Popup>
-                                <strong>{evento.titulo}</strong><br />
-                                {evento.endereco}
-                            </Popup>
-                        </Marker>
-
+                            eventHandlers={{
+                                click: () => handleShowModal(evento)
+                            }}
+                        />
                     ))}
                     <SetViewOnUserLocation position={userPosition} />
                     {recenter && (

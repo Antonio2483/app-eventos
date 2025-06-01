@@ -39,3 +39,36 @@
     padding: 10px 20px;
     text-align: justify;
 }
+
+.eventoDetail-dataTable {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.eventoDetail-dataTable td {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.eventoDetail-dataTable .titulo {
+  color: #cda6d2;
+}
+
+.input-atualizar-evento{
+  border: solid 1px grey;
+}
+
+.evento-editar-botoes{
+  width: 100%;
+  text-align: center;
+}
+
+.eventoDetail-metricas-grafico{
+  width: 100%;
+  border-bottom: 2px solid #cda6d2;
+}
+
+.data-table-outrasInformacoes{
+  font-size: 2rem;
+  text-align: center;
+}

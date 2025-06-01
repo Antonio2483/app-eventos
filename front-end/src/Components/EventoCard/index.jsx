@@ -96,7 +96,7 @@ export default function EventoCard(props) {
                         {props.isConfirmado ? (
                             <button className='eventoCard-botao-cancelar' onClick={() => props.onCancelarClick(props.inscricaoId)}>Cancelar participação</button>
                         ) : (
-                            <button className='eventoCard-botao' onClick={() => props.onParticiparClick(props.id)}>Vou participar</button>
+                            <button className='eventoCard-botao' onClick={() => props.onParticiparClick(props.id, props.inscricaoId)}>Vou participar</button>
                         )}
                     </div>
                 </div>

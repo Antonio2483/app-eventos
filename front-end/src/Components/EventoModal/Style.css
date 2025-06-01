@@ -1,0 +1,132 @@
+.eventoModal-container {
+  background-color: rgba(70, 70, 70, 0.425);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.eventoModal-body {
+  background-color: white;
+  width: 1200px;
+  height: fit-content;
+  border-radius: 20px;
+}
+
+.eventoModal-header {
+  border-bottom: 4px solid #cda6d2;
+  height: fit-content;
+  font-size: 2rem;
+  color: #cda6d2;
+  display: flex;
+
+}
+
+.eventoModal-content {
+  width: 100%;
+  height: 100%;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+  font-size: 1.6rem;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.eventoModal-dadosEvento {
+  width: 100%;
+  flex: 2;
+}
+
+.eventoModal-Mapa {
+  width: 100%;
+  flex: 1;
+  padding: 0 10px 10px 10px;
+}
+
+.eventoModal-Mapa-Container{
+  border: 5px solid #cda6d2;
+  border-radius: 40px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.eventoModal-data {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.eventoModal-botoesContainer {
+  width: 100%;
+  /* background-color: yellow; */
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.eventoModal-dataTable .titulo {
+  color: #cda6d2;
+}
+
+.eventoModal-esquerda {
+  height: 100%;
+  flex: 1;
+  padding-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  /* background-color: red; */
+}
+
+.eventoModal-direita {
+  height: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: right;
+  /* background-color: blue; */
+  /* padding-right: 20px; */
+}
+
+.eventoModal-fecharModalButton-icon {
+  height: 70px;
+  width: 70px;
+  color: #cda6d2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 4px solid #cda6d2;
+}
+
+.eventoModal-fecharModalButton-icon:hover {
+  background-color: #cda6d2;
+  color: white;
+}
+
+.eventoModal-ComparecerBotao, .eventoModal-CancelarBotao{
+  background-color: #cda6d2;
+  color: white;
+  border-radius: 10px;
+  border: 1px solid #cda6d2;
+  padding: 10px;
+  width: 100%;
+}
+
+.eventoModal-CancelarBotao{
+   background-color: #df6060;
+  border: 1px solid #df6060;
+}
+
+.eventoModal-dataTable {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.eventoModal-dataTable td {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}

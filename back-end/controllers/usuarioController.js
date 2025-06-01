@@ -26,9 +26,10 @@ const registrarUsuario = async (req, res) =>{
             email,
             senha,
             tipo,
-            pessoaData: tipo === 'Pessoa' ? pessoaData : undefined,
+            pessoaData,
             empresaData: tipo === 'Empresa' ? empresaData : undefined,
         });
+        
 
         await novoUsuario.save();
 

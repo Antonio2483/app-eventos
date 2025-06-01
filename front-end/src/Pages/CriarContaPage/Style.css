@@ -61,7 +61,7 @@ body {
 }
 
 .input-criar-conta {
-    background-color: rgb(211, 211, 211);
+    background-color: #cda6d2;
     border: none;
     padding: 20px;
     border-bottom: solid 1px grey;
@@ -69,8 +69,9 @@ body {
     padding-bottom: 5px;
     outline: none;
     width: 50%;
-
+    
 }
+
 
 .title-font {
     font-weight: 700;
@@ -101,14 +102,25 @@ body {
 }
 
 .criar-conta-nomecompleto-div{
-    width: 50%;
+    display: flex;
+    align-items: center;
+}
 
+.criar-conta-cep{
+    width: 33%;
 }
 
 .criar-conta-contaCriada{
     flex: 1;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.criar-conta-cidadeEstado-div{
+    display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -126,4 +138,26 @@ body {
   color: #cda6d2;
   border-radius: 8px;
   height: 40px;
+}
+
+.criar-conta-dataNascimento-div{
+    background-color: #cda6d2;
+}
+
+.criar-conta-endereco-div{
+    width: 50%;
+}
+
+.criar-conta-estado{
+    flex:1;
+    -webkit-appearance: none; 
+    -moz-appearance: none;    
+    appearance: none;
+    color: #817575;
+    margin-right:10px;
+}
+
+.criar-conta-cidade{
+    flex:1.5;
+    
 }

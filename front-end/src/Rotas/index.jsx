@@ -13,6 +13,7 @@ import CriarConta from "../Pages/CriarContaPage"
 import SeusEventos from "../Pages/SeusEventosPage"
 import Redirect from '../Pages/RedirectPage';
 import EventosDetail from '../Pages/EventoDetailPage'
+import TorneseMembro from "../Pages/MembroPage"
 
 export default function Rotas() {
     return (
@@ -26,6 +27,7 @@ export default function Rotas() {
                             <Route path="/home" element={<Home />} />
                             <Route path="/calendario" element={<Calendario />} />
                             <Route path="/mapa" element={<Mapa />} />
+                            <Route path="/torne-se-membro" element={<TorneseMembro />} />
                         </Route>
                         {/* rotas de empresa */}
                         <Route element={<EventoRoute />}>
