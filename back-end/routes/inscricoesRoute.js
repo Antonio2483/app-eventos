@@ -27,8 +27,8 @@ router.patch('/confirmarInscricao/:id', verificarToken, confirmarInscricao);
 
 router.get('/getInfoGrafico', verificarToken, inscricoesGrafico);
 
-router.get('/totalInscritosStatus', totalInscritos);
+router.get('/totalInscritosStatus', verificarToken, totalInscritos);
 
-router.get('/mediaInscricoes', mediaInscricoesPorEvento);
+router.get('/mediaInscricoes', verificarToken, mediaInscricoesPorEvento);
 
 module.exports = router;

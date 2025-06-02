@@ -5,6 +5,11 @@ const usuarioUpgradeRequestSchema = new mongoose.Schema({
   status: { type: String, enum: ['pendente', 'aprovado', 'rejeitado'], default: 'pendente' },
   empresaData:{
         nomeFantasia: String,
+        nomeEmpresa: String,
+        emailResponsavel: String,
+        celular: String,
+        telefone: String,
+        site: String,
         cnpj: {
             type:String,
             unique:true,
@@ -25,7 +30,8 @@ const usuarioUpgradeRequestSchema = new mongoose.Schema({
                 cidade: String,
                 estado: String,
                 cep: String,
-                pais: String
+                pais: String,
+                complemento: String
             }
         },
     },

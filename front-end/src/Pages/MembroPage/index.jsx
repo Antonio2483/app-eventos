@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import './Style.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import callout from '../../services/api';
+import { geocodeAddress } from '../../utils/geocode';
 
 
 //Components 
@@ -25,6 +26,8 @@ export default function Membro() {
     const [complemento, setComplemento] = useState('');
     const [site, setSite] = useState('');
     const [formEnviado, setFormEnviado] = useState(false);
+    const [coordenadas, setCoordenadas] = useState([]);
+
 
 
     const formatarTelefone = (valor) => {
@@ -86,9 +89,111 @@ export default function Membro() {
         setCnpj(value);
     };
 
-    const handleEnviarForm = (e) => {
-        const valorFormatado = formatarTelefone(e.target.value);
-        setTelefone(valorFormatado);
+    const handleEnviarForm = async (e) => {
+        if (verificarValores()) {
+            const endereco = `${numero}, ${bairro}, ${cidade}, ${estado}, ${cep}, Brasil`;
+
+            try {
+                const coordenadas = await geocodeAddress(endereco);
+
+                if (coordenadas) {
+                    let empresaData = {};
+                    empresaData.nomeFantasia = nomeFantasia
+                    empresaData.nomeEmpresa = nomeEmpresa
+                    empresaData.emailResponsavel = email
+                    empresaData.celular = celular
+                    empresaData.telefone = telefone
+                    empresaData.site = site
+                    empresaData.cnpj = cnpj
+
+                    let localizacao = {};
+                    localizacao.coordinates = [coordenadas.longitude, coordenadas.latitude];
+
+                    let endereco = {};
+                    endereco.numero = numero;
+                    endereco.bairro = bairro;
+                    endereco.cidade = cidade;
+                    endereco.estado = estado;
+                    endereco.cep = cep;
+                    endereco.pais = "Brasil";
+                    endereco.complemento = complemento;
+
+                    localizacao.endereco = endereco;
+
+                    empresaData.localizacao = localizacao;
+
+                    callout.post('http://localhost:5000/requisicoes/criarRequisicao', { empresaData })
+                        .then(response => {
+                            setFormEnviado(true);
+                        })
+                        .catch(error => {
+                            if (error.response) {
+                                setErro("correu um erro ao enviar a requisição");
+                            } else {
+                                setErro("Erro ao conectar com o servidor")
+                            }
+                        });
+                } else {
+                    setErro("Não foi possível obter as coordenadas.");
+                }
+
+            } catch (erro) {
+                console.error("Erro ao geocodificar o endereço:", erro);
+                setErro("Ocorreu um erro ao verificar o endereço")
+                // Aqui também pode exibir uma mensagem de erro para o usuário
+            }
+
+        }
+    };
+
+    const verificarValores = () => {
+        if (!nomeEmpresa) {
+            setErro("Nome da empresa é obrigatório")
+            return false;
+        }
+        if (!nomeFantasia) {
+            setErro("Nome fantasia é obrigatório")
+            return false;
+        }
+        if (!cnpj || cnpj.length < 18) {
+            setErro("CNPJ é obrigatório")
+            return false;
+        }
+        if (!email) {
+            setErro("Email do responsável é obrigatório")
+            return false;
+        }
+        if (!cep || cep.length < 9) {
+            setErro("CEP é obrigatório")
+            return false;
+        }
+        if (!estado) {
+            setErro("Estado é obrigatório")
+            return false;
+        }
+        if (!cidade) {
+            setErro("Cidade é obrigatória")
+            return false;
+        }
+        if (!bairro) {
+            setErro("Bairro é obrigatório")
+            return false;
+        }
+        if (!numero) {
+            setErro("Número é obrigatório")
+            return false;
+        }
+        if (!celular || celular.length < 15) {
+            setErro("Celular para contato é obrigatório")
+            return false;
+        }
+        if (!telefone || telefone.length < 15) {
+            setErro("Telefone é obrigatório")
+            return false;
+        }
+        if (nomeEmpresa && nomeFantasia && cnpj && email && cep && estado && cidade && bairro && numero && celular && telefone) {
+            return true;
+        }
     };
 
 
@@ -102,17 +207,17 @@ export default function Membro() {
                         <table className="membro-form-table">
                             <tr>
                                 <td colSpan={3} style={{ paddingRight: '15px' }}>
-                                    <p>Nome da empresa</p>
-                                    <input className="input-form-membro" type="text" placeholder="" />
+                                    <p>Nome da empresa*</p>
+                                    <input className="input-form-membro" type="text" placeholder="" onChange={(e) => setNomeEmpresa(e.target.value)} />
                                 </td>
                                 <td colSpan={3}>
-                                    <p>Nome Fantasia</p>
-                                    <input className="input-form-membro" type="text" placeholder="" />
+                                    <p>Nome Fantasia*</p>
+                                    <input className="input-form-membro" type="text" placeholder="" onChange={(e) => setNomeFantasia(e.target.value)} />
                                 </td>
                             </tr>
                             <tr>
                                 <td colSpan={3} style={{ paddingRight: '15px' }}>
-                                    <p>CNPJ</p>
+                                    <p>CNPJ*</p>
                                     <input className="input-form-membro"
                                         type="text"
                                         value={cnpj}
@@ -122,19 +227,19 @@ export default function Membro() {
                                         inputMode="numeric" />
                                 </td>
                                 <td colSpan={3}>
-                                    <p>Email do responsavel</p>
-                                    <input className="input-form-membro" type="email" placeholder="" />
+                                    <p>Email do responsavel*</p>
+                                    <input className="input-form-membro" type="email" placeholder="" onChange={(e) => setEmail(e.target.value)} />
                                 </td>
                             </tr>
                             <tr>
                                 <td style={{ paddingRight: '15px' }} colSpan={2}>
-                                    <p>CEP</p>
-                                    <input className="input-form-membro form-membro-cep" type="text" placeholder="" maxlength="9" placeholder="00000-000" value={cep}
+                                    <p>CEP*</p>
+                                    <input className="input-form-membro form-membro-cep" type="text" maxlength="9" placeholder="00000-000" value={cep}
                                         onChange={handleCepChange} />
                                 </td>
                                 <td style={{ paddingRight: '15px' }} colSpan={2}>
-                                    <p>Estado</p>
-                                    <select id="estado" name="estado" className="input-form-membro form-membro-estado">
+                                    <p>Estado*</p>
+                                    <select id="estado" name="estado" className="input-form-membro form-membro-estado" onChange={(e) => setEstado(e.target.value)}>
                                         <option value="" disabled selected>---</option>
                                         <option value="AC">Acre</option>
                                         <option value="AL">Alagoas</option>
@@ -166,42 +271,42 @@ export default function Membro() {
                                     </select>
                                 </td>
                                 <td colSpan={2}>
-                                    <p>Cidade</p>
-                                    <input className="input-form-membro" type="text" placeholder="" />
+                                    <p>Cidade*</p>
+                                    <input className="input-form-membro" type="text" placeholder="" onChange={(e) => setCidade(e.target.value)} />
                                 </td>
                             </tr>
                             <tr>
                                 <td style={{ paddingRight: '15px' }} colSpan={2}>
-                                    <p>Bairro</p>
-                                    <input className="input-form-membro" type="text" placeholder="" />
+                                    <p>Bairro*</p>
+                                    <input className="input-form-membro" type="text" placeholder="" onChange={(e) => setBairro(e.target.value)} />
                                 </td>
                                 <td style={{ paddingRight: '15px' }} colSpan={2}>
-                                    <p>Número</p>
-                                    <input className="input-form-membro" type="text" placeholder="" />
+                                    <p>Número*</p>
+                                    <input className="input-form-membro" type="text" placeholder="" onChange={(e) => setNumero(e.target.value)} />
                                 </td>
                                 <td colSpan={2}>
                                     <p>Complemento(Opicional)</p>
-                                    <input className="input-form-membro" type="text" placeholder="" />
+                                    <input className="input-form-membro" type="text" placeholder="" onChange={(e) => setComplemento(e.target.value)} />
                                 </td>
                             </tr>
                             <tr>
                                 <td colSpan={2} style={{ paddingRight: '15px' }}>
-                                    <p>Celular para contato</p>
-                                    <input className="input-form-membro" type="text" placeholder="" value={celular}
+                                    <p>Celular para contato*</p>
+                                    <input className="input-form-membro" type="text" value={celular}
                                         onChange={handleChangeCelular}
                                         placeholder="(11) 91234-5678"
                                         maxLength={15} />
                                 </td>
                                 <td colSpan={2} style={{ paddingRight: '15px' }}>
-                                    <p>Telefone</p>
-                                    <input className="input-form-membro" type="text" placeholder="" value={telefone}
+                                    <p>Telefone*</p>
+                                    <input className="input-form-membro" type="text" value={telefone}
                                         onChange={handleChangeTelefone}
                                         placeholder="(11) 91234-5678"
                                         maxLength={15} />
                                 </td>
                                 <td colSpan={2}>
                                     <p>Site(Opicional)</p>
-                                    <input className="input-form-membro" type="text" placeholder="" />
+                                    <input className="input-form-membro" type="text" placeholder="" onChange={(e) => setSite(e.target.value)} />
                                 </td>
                             </tr>
                             {erro &&

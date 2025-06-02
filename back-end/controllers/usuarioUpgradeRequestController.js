@@ -2,10 +2,10 @@ const UsuarioUpgradeRequest = require('../models/usuarioUpgradeRequestModel');
 
 const criarRequisicao = async (req, res) => {
   try {
-    const { idUsuario, empresaData } = req.body;
+    const { empresaData } = req.body;
 
     const newRequest = new UsuarioUpgradeRequest({
-      idUsuario,
+      idUsuario:req.usuario.id,
       empresaData
     });
 
@@ -13,6 +13,7 @@ const criarRequisicao = async (req, res) => {
 
     res.status(201).json(newRequest);
   } catch (error) {
+    console.error(error)
     res.status(500).json({ error: error.message });
   }
 };
