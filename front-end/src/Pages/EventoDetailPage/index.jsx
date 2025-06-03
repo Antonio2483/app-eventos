@@ -47,6 +47,12 @@ export default function EventoDetail() {
     const [confirmados, SetConfirmados] = useState([]);
     const [pendente, SetPendente] = useState([]);
     const [cancelados, SetCancelados] = useState([]);
+    const [descricao, setDescricao] = useState("");
+    const [dataInicio, setDataInicio] = useState("");
+    const [dataTermino, setDataTermino] = useState("");
+    const [mediaValor, setMediaValor] = useState("");
+    const [gratuito, setGratuito] = useState(false);
+    const [erro, setErro] = useState(false);
 
     useEffect(() => {
         getEventos();
@@ -55,7 +61,7 @@ export default function EventoDetail() {
 
     }, [id]);
 
-    const getEventos = () => {
+    const getEventos = async () => {
         callout.get(`http://localhost:5000/eventos/obterEvento/${id}`)
             .then(response => {
 
@@ -64,11 +70,12 @@ export default function EventoDetail() {
             .catch(error => console.error('Erro ao buscar eventos:', error));
     }
 
-    const getGrafico = () => {
+    const getGrafico = async () => {
         callout.get(`http://localhost:5000/inscricoes/getInfoGrafico?eventoId=${id}`)
             .then(response => {
                 console.log("RESPONSE", response)
-                setChartData({
+
+                const data = {
                     labels: response.data.labels,
                     datasets: [
                         {
@@ -78,7 +85,11 @@ export default function EventoDetail() {
                             fill: false
                         }
                     ]
-                });
+                }
+
+                setChartData(data);
+                calcularMediaInscricoes(data);
+
             })
             .catch(error => console.error('Erro ao buscar dados do gráfico:', error));
     }
@@ -121,7 +132,7 @@ export default function EventoDetail() {
 
         const inscricoes = chartData.datasets[0].data;
         const total = inscricoes.reduce((sum, valor) => sum + valor, 0);
-        console.log("total",total);
+        console.log("total", total);
         calcularInscricoesMock(total);
         const numeroDeDias = chartData.labels.length;
 
@@ -129,7 +140,7 @@ export default function EventoDetail() {
 
         return media.toFixed(2); // arredonda para 2 casas decimais
 
-        
+
     }
 
     const calcularInscricoesMock = (totalInscricoes) => {
@@ -147,6 +158,68 @@ export default function EventoDetail() {
         const minutes = String(date.getMinutes()).padStart(2, '0');
         return `${year}-${month}-${day}T${hours}:${minutes}`;
     };
+
+    const handleGratuitoCheck = (event) => {
+
+        if (event.target.checked) {
+            setMediaValor("");
+        }
+
+        setGratuito(event.target.checked)
+    };
+
+    const handleEdicao = (e) => {
+        setEdicao(true)
+
+        setDataInicio(formatarData(evento.dataMarcada));
+        setDataTermino(formatarData(evento.dataTermino));
+        setGratuito(evento.gratuito)
+        setMediaValor(evento.mediaValor)
+        setDescricao(evento.descricao)
+    };
+
+    const handleCancelarEdicao = (e) => {
+        setEdicao(false)
+        setDataInicio("");
+        setDataTermino("");
+        setGratuito(false)
+        setMediaValor("")
+        setDescricao("")
+    };
+
+    const handleSalvarEvento = (e) => {
+        if (!dataInicio) {
+            setErro("Campo data de início é obrigatório");
+            return;
+        }
+
+        if (!dataTermino) {
+            setErro("Campo data de término é obrigatório");
+            return;
+        }
+
+        if (!gratuito && !mediaValor ) {
+            setErro("Campo média de valor é obrigatório");
+            return;
+        }
+
+        if (!descricao) {
+            setErro("Campo descrição é obrigatório");
+            return;
+        }
+
+        atualizarEvento();
+
+    };
+
+    const atualizarEvento = async (e) => {
+        callout.put('http://localhost:5000/eventos/atualizar', { id, dataMarcada:dataInicio, dataTermino, gratuito, mediaValor, descricao })
+            .then(response => {
+                handleCancelarEdicao();
+                getEventos();
+            })
+            .catch(error => { console.error('Erro ao atualizar evento usuario:', error); setErro("Erro ao atualizar o evento") });
+    }
 
     return (
         <div className="EventoDetail-page">
@@ -202,7 +275,7 @@ export default function EventoDetail() {
                 </div>
                 <div className="divCard-body">
                     <div className="divCard-header">
-                        Dados do evento {!edicao && <button className='dadosEvento-editar-button' style={{ color: "gray" }}><FontAwesomeIcon icon={faPencil} /></button>}
+                        Dados do evento {!edicao && <button className='dadosEvento-editar-button' style={{ color: "gray" }}><FontAwesomeIcon icon={faPencil} onClick={handleEdicao} /></button>}
                     </div>
                     <div className="divCard-descricao">
                         {!edicao ? (
@@ -280,7 +353,7 @@ export default function EventoDetail() {
                                         Data Início:
                                     </td>
                                     <td>
-                                        <input className="input-atualizar-evento" type="datetime-local" placeholder="Data Inicio" value={formatarData(evento.dataMarcada)} />
+                                        <input className="input-atualizar-evento" type="datetime-local" placeholder="Data Inicio" value={dataInicio} onChange={(e) => setDataInicio(e.target.value)} />
                                     </td>
                                 </tr>
                                 <tr>
@@ -288,7 +361,7 @@ export default function EventoDetail() {
                                         Data Término:
                                     </td>
                                     <td>
-                                        <input className="input-atualizar-evento" type="datetime-local" placeholder="Data Termino" value={formatarData(evento.dataTermino)} />
+                                        <input className="input-atualizar-evento" type="datetime-local" placeholder="Data Termino" value={dataTermino} onChange={(e) => setDataTermino(e.target.value)} />
                                     </td>
                                 </tr>
                                 <tr>
@@ -296,7 +369,7 @@ export default function EventoDetail() {
                                         Gratuito?
                                     </td>
                                     <td>
-                                        <input className="input-atualizar-evento" type="checkbox" placeholder="Gratuito?" value={evento.gratuito} />
+                                        <input className="input-atualizar-evento" type="checkbox" placeholder="Gratuito?" checked={gratuito} onClick={handleGratuitoCheck} />
                                     </td>
                                 </tr>
                                 <tr>
@@ -304,7 +377,7 @@ export default function EventoDetail() {
                                         Média de preço:
                                     </td>
                                     <td>
-                                        <input className="input-atualizar-evento" type="number" placeholder="Média de valor" value={evento.mediaValor} />
+                                        <input className="input-atualizar-evento" type="number" placeholder="Média de valor" value={mediaValor} disabled={gratuito} onChange={(e) => setMediaValor(e.target.value)} />
                                     </td>
                                 </tr>
                                 <tr>
@@ -328,14 +401,22 @@ export default function EventoDetail() {
                                             rows="4"
                                             cols="50"
                                             placeholder="Descrição do evento"
-                                            value={evento.descricao}
+                                            value={descricao}
+                                            onChange={(e) => setDescricao(e.target.value)}
                                         ></textarea>
                                     </td>
                                 </tr>
+                                {erro &&
+                                    <tr>
+                                        <td colSpan={2} style={{ textAlign: "center" }}>
+                                            <p style={{ color: "red" }}>{erro}</p>
+                                        </td>
+                                    </tr>
+                                }
                                 <tr>
                                     <td colSpan={2} className='evento-editar-botoes'>
-                                        <button className='salvar-botao'>Salvar</button>
-                                        <button className='cancelar-botao'>Cancelar</button>
+                                        <button className='salvar-botao' onClick={handleSalvarEvento}>Salvar</button>
+                                        <button className='cancelar-botao' onClick={handleCancelarEdicao}>Cancelar</button>
                                     </td>
                                 </tr>
                             </table>

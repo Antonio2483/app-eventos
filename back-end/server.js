@@ -12,6 +12,11 @@ const eventosRoutes = require("./routes/eventosRoutes");
 const usuariosRoutes = require("./routes/usuariosRoutes");
 const inscricaoRoutes = require("./routes/inscricoesRoute");
 const requisicaoRoutes = require("./routes/usuarioUpgradeRequestRoutes");
+const notificacaoRoutes = require("./routes/notificacaoRoutes");
+
+// Importando Jobs
+
+const iniciarCronNotificacoes = require('./jobs/notificacoesJob');
 
 // Conectar com o BD na nuvem
 connectDB();
@@ -21,7 +26,10 @@ app.use("/eventos", eventosRoutes);
 app.use("/usuarios", usuariosRoutes);
 app.use("/inscricoes", inscricaoRoutes);
 app.use("/requisicoes", requisicaoRoutes);
+app.use("/notificacoes", notificacaoRoutes);
 
+// Iniciar jobs
+iniciarCronNotificacoes()
 
 app.get("/", (req, res) => {
     res.send("Servidor está rodando!");

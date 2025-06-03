@@ -85,26 +85,35 @@ const obterDadosUsuario = async (req, res) =>{
 }
 
 const atualizarUsuario = async (req, res) => {
-    try{
-        const {tipo, pessoaData, empresaData} = req.body;
+    try {
+        const { email, tipo, pessoaData, empresaData } = req.body;
         const usuario = await Usuario.findById(req.usuario.id);
-        
-        if(!usuario){
+
+        if (!usuario) {
             return res.status(404).json({ error: "Usuário não encontrado" });
         }
 
-        if(tipo) usuario.tipo = tipo;
-        if (tipo === 'Pessoa' && pessoaData) usuario.pessoaData = pessoaData;
-        if (tipo === 'Empresa' && empresaData) usuario.empresaData = empresaData;
+        if (email) usuario.email = email;
+
+        if (tipo) usuario.tipo = tipo;
+
+        if (typeof pessoaData === 'object') {
+            usuario.pessoaData = { ...usuario.pessoaData.toObject?.(), ...pessoaData };
+        }
+
+        if (empresaData && typeof empresaData === 'object') {
+            usuario.empresaData = { ...usuario.empresaData?.toObject?.(), ...empresaData };
+        }
 
         await usuario.save();
 
         res.json({ message: "Usuário atualizado com sucesso!", usuario });
-    }catch(error){
+    } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Erro ao atualizar usuário" });
     }
 };
+
 
 const deletarUsuario = async (req, res) => {
     try{

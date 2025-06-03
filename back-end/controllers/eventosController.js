@@ -190,4 +190,45 @@ const getEventoId = async (req, res) => {
     }
 };
 
-module.exports = { getTodosEventosPublicos, criarEvento, getEventosPorFiltro, getEventosUser, getEventoId };
+const atualizarEvento = async (req, res) => {
+    try {
+        const { id, mediaValor} = req.body;
+        const updateData = {};
+
+        // Lista de campos que podem ser atualizados
+        const camposPermitidos = [
+            'titulo',
+            'descricao',
+            'dataMarcada',
+            'dataTermino',
+            'gratuito',
+            'privado'
+        ];
+
+        // Preenche updateData apenas com campos não vazios
+        camposPermitidos.forEach(campo => {
+            if (req.body[campo] !== undefined && req.body[campo] !== null && req.body[campo] !== '') {
+                updateData[campo] = req.body[campo];
+            }
+        });
+
+        updateData['mediaValor'] = mediaValor;
+
+        if (Object.keys(updateData).length === 0) {
+            return res.status(400).json({ mensagem: 'Nenhum dado válido para atualizar.' });
+        }
+
+        const eventoAtualizado = await Evento.findByIdAndUpdate(id, updateData, { new: true });
+
+        if (!eventoAtualizado) {
+            return res.status(404).json({ mensagem: 'Evento não encontrado.' });
+        }
+
+        res.status(200).json(eventoAtualizado);
+    } catch (erro) {
+        console.error(erro);
+        res.status(500).json({ mensagem: 'Erro ao atualizar evento.' });
+    }
+};
+
+module.exports = { getTodosEventosPublicos, criarEvento, getEventosPorFiltro, getEventosUser, getEventoId, atualizarEvento };

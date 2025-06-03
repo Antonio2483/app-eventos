@@ -13,7 +13,6 @@ export default function CriarConta() {
 
     const navigate = useNavigate();
     const [nome, setNome] = useState("");
-    const [sobrenome, setSobrenome] = useState("");
     const [nascimento, setNascimento] = useState("");
     const [email, setEmail] = useState("");
     const [telefone, setTelefone] = useState("");

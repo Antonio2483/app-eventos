@@ -41,7 +41,7 @@ export default function CriarEventoButton() {
         setDataInicio("");
         setDataTermino("");
         setMediaValor("");
-        setGratuito("");
+        setGratuito(false);
     };
 
     useEffect(() => {
