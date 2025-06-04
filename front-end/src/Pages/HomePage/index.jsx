@@ -37,9 +37,9 @@ export default function Home() {
             return;
         }
 
-
         const url = `http://localhost:5000/eventos/obterEventosFiltro`;
-        let dataMarcada = new Date();
+        const agora = new Date();
+        let dataMarcada;
         let tipoData = '';
         const raio = sliderValue;
 
@@ -47,36 +47,51 @@ export default function Home() {
         switch (filtro) {
             case "todos":
                 tipoData = 'apartir';
+                dataMarcada = agora; // hoje
                 break;
             case "hoje":
                 tipoData = 'exata';
+                // Ajuste: fixa data para hoje 00:00:00
+                dataMarcada = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate(), 0, 0, 0);
                 break;
             case "proximos":
                 tipoData = 'apartir';
-                const amanha = new Date(dataMarcada);
-                amanha.setDate(dataMarcada.getDate() + 1);
+                const amanha = new Date(agora);
+                amanha.setDate(agora.getDate() + 1);
                 dataMarcada = amanha;
                 break;
+            default:
+                tipoData = 'apartir';
+                dataMarcada = agora;
         }
 
         navigator.geolocation.getCurrentPosition(
             (pos) => {
-                const coordenadas = [-46.942290895066165, -22.37022132194142];//[pos.coords.longitude, pos.coords.latitude];
-                
+                const coordenadas = [
+                    -46.942290895066165,
+                    -22.37022132194142
+                    
+                ];// [pos.coords.longitude, pos.coords.latitude];
+
                 setLocalizacaoUser(coordenadas);
+
                 const area = {
                     coordenadas: coordenadas,
                     raio: Number(raio) * 1000
                 };
 
-                callout.post(url, { dataMarcada, tipoData, area })
+                callout.post(url, {
+                    dataMarcada: dataMarcada.toISOString(),
+                    tipoData,
+                    area
+                })
                     .then(response => {
                         setEventos(response.data);
 
-                        console.log(eventos.map(e => ({
+                        console.log(response.data.map(e => ({
                             titulo: e.titulo,
                             distancia: e.distancia
-                        })))
+                        })));
                     })
                     .catch(error => {
                         console.error('Erro ao buscar eventos:', error);
@@ -93,6 +108,7 @@ export default function Home() {
     };
 
 
+
     useEffect(() => {
         fetchEventos(filtro, sliderValue);
     }, [filtro, sliderValue]);
@@ -106,11 +122,11 @@ export default function Home() {
         setFiltro(tipo);
     };
 
-    const abrirModalConfirmacao = (idEvento,idInscricao) => {
-        if(idInscricao){
+    const abrirModalConfirmacao = (idEvento, idInscricao) => {
+        if (idInscricao) {
             setIsInscricaoModal(true);
             setEventoSelecionadoId(idInscricao);
-        }else{
+        } else {
             setEventoSelecionadoId(idEvento);
         }
         setShowModalConfirmacaoEvento(true);
@@ -120,7 +136,7 @@ export default function Home() {
     const abrirModalCancelar = (idInscricao) => {
         setEventoSelecionadoId(idInscricao);
         setShowModalCancelarEvento(true);
-        
+
 
     };
 
@@ -160,9 +176,9 @@ export default function Home() {
     }
 
     const HandleconfirmarInscricao = () => {
-        if(isInscricaoModal){
+        if (isInscricaoModal) {
             confirmarInscricao();
-        }else{
+        } else {
             criarInscricao("confirmado")
         }
     }
@@ -185,12 +201,12 @@ export default function Home() {
 
     const handleInscricaoClick = (tipo) => {
         setIsInscricao(true);
-        if(tipo ==='salvos'){
+        if (tipo === 'salvos') {
             setEventoConfirmado(false)
             setStatusInscricao('pendente')
             setFiltro('salvos');
         }
-        if(tipo ==='confirmado'){
+        if (tipo === 'confirmado') {
             setEventoConfirmado(true)
             setStatusInscricao('confirmado')
             setFiltro('confirmados');
@@ -199,23 +215,23 @@ export default function Home() {
 
     const handleGetInscricao = () => {
         console.log('BUSCANDO INSCRIÇÃO')
-                const coordenadas = localizacaoUser;
-                callout.post('http://localhost:5000/inscricoes/GetInscricaoUserFiltro/',{status:statusInscricao, coordenadas})
-                    .then(response => {
-                        console.log("inscricao", response.data);
-                        setInscricoes(response.data);
+        const coordenadas = localizacaoUser;
+        callout.post('http://localhost:5000/inscricoes/GetInscricaoUserFiltro/', { status: statusInscricao, coordenadas })
+            .then(response => {
+                console.log("inscricao", response.data);
+                setInscricoes(response.data);
 
-                        console.log(eventos.map(e => ({
-                            titulo: e.titulo,
-                            distancia: e.distancia
-                        })))
-                    })
-                    .catch(error => {
-                        console.error('Erro ao buscar inscricoes:', error);
-                    })
-                    .finally(() => {
-                        setLoading(false);
-                    });
+                console.log(eventos.map(e => ({
+                    titulo: e.titulo,
+                    distancia: e.distancia
+                })))
+            })
+            .catch(error => {
+                console.error('Erro ao buscar inscricoes:', error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
 
     };
 

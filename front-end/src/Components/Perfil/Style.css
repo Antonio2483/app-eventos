@@ -14,14 +14,17 @@
 }
 
 .perfil-body{
-  width: 90%;
+  /* width: 90%; */
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 0 60px;
+  padding: 0;
+  padding-right: 3rem;
+  padding-left: 3rem;
+  /* box-sizing: border-box; */
 }
 
 .perfil-img{

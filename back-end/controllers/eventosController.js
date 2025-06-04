@@ -53,27 +53,33 @@ const getEventosPorFiltro = async (req, res) => {
 
         const data = new Date(dataMarcada);
 
-        const dataInicial = new Date(Date.UTC(
-            data.getUTCFullYear(),
-            data.getUTCMonth(),
-            data.getUTCDate(),
-            0, 0, 0
-        ));
+        // Ajuste: usa fuso local
+        const dataInicial = new Date(data.getFullYear(), data.getMonth(), data.getDate(), 0, 0, 0);
+        const dataFinal = new Date(data.getFullYear(), data.getMonth(), data.getDate() + 1, 0, 0, 0);
 
-        const dataFinal = new Date(Date.UTC(
-            data.getUTCFullYear(),
-            data.getUTCMonth(),
-            data.getUTCDate() + 1,
-            0, 0, 0
-        ));
+        // console.log("DATA ENVIADA",data)
+        // console.log("DATA INICIAL",dataInicial)
+        // console.log("DATA FINAL",dataFinal)
 
+        let dataFiltro = {};
 
-        const dataFiltro = tipoData === 'exata'
-            ? {
-                $gte: dataInicial,
-                $lt: dataFinal
-            }
-            : { $gte: new Date(dataInicial) };
+        if (tipoData === 'exata') {
+            // Ajuste: pega eventos que começam hoje OU estão em andamento hoje
+            dataFiltro = {
+                $or: [
+                    { 
+                        dataMarcada: { $gte: dataInicial, $lt: dataFinal }
+                    },
+                    { 
+                        dataMarcada: { $lt: dataInicial },
+                        dataTermino: { $gte: dataInicial }
+                    }
+                ]
+            };
+        } else {
+            // Mantém a busca "a partir de" a data
+            dataFiltro = { dataMarcada: { $gte: dataInicial } };
+        }
 
         const eventos = await Evento.aggregate([
             {
@@ -87,13 +93,13 @@ const getEventosPorFiltro = async (req, res) => {
                     maxDistance: area.raio,
                     query: {
                         privado: false,
-                        dataMarcada: dataFiltro
+                        ...dataFiltro
                     }
                 }
             },
             {
                 $lookup: {
-                    from: 'inscricaos', // nome da coleção no MongoDB
+                    from: 'inscricaos',
                     let: { eventoId: '$_id' },
                     pipeline: [
                         {
@@ -118,9 +124,7 @@ const getEventosPorFiltro = async (req, res) => {
                             inscricaoUsuario: {
                                 $not: {
                                     $elemMatch: {
-                                        status: {
-                                            $in: ["confirmado", "pendente"]
-                                        }
+                                        status: { $in: ["confirmado", "pendente"] }
                                     }
                                 }
                             }

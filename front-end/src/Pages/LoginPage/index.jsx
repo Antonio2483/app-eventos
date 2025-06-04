@@ -6,6 +6,9 @@ import { useState } from "react";
 import api from '../../services/api';
 import Footer from "../../Components/Footer"
 import './Style.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 export default function Login() {
 
@@ -16,6 +19,7 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [erro, setErro] = useState("");
+    const [mostrarSenha, setMostrarSenha] = useState(false);
 
     const handleLogin = async () => {
         setErro("");
@@ -44,7 +48,21 @@ export default function Login() {
                     <p className="title-font login-title">Vamos fazer um rápido Login...</p>
                     {erro && <p style={{ color: "red" }}>{erro}</p>}
                     <input className="input-login login-email" type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-                    <input className="input-login login-senha" type="password" placeholder="Senha" onChange={(e) => setSenha(e.target.value)} />
+                    <div className="input-senha-container-login">
+                        <input
+                            className="input-login login-senha"
+                            type={mostrarSenha ? "text" : "password"}
+                            placeholder="Senha"
+                            onChange={(e) => setSenha(e.target.value)}
+                        />
+                        <button
+                            type="button"
+                            className="toggle-senha-login"
+                            onClick={() => setMostrarSenha(!mostrarSenha)}
+                        >
+                            {mostrarSenha ? (<FontAwesomeIcon icon={faEye} />) : (<FontAwesomeIcon icon={faEyeSlash} />)}
+                        </button>
+                    </div>
                     <div className="criar-conta-div">
                         <p><Link to="/CriarConta"><u>Criar uma conta</u></Link></p>
                     </div>

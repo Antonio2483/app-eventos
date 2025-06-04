@@ -161,3 +161,32 @@ body {
     flex:1.5;
     
 }
+
+.input-senha-container-criar-conta {
+    position: relative;
+    width: 50%;
+    background-color: red;
+}
+
+.input-senha-container-criar-conta .criar-conta-senha {
+    width: 100%;
+    padding-right: 60px;
+    /* Espaço para o botão */
+}
+
+.toggle-senha-criar-conta  {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+}
+
+.criar-conta-buttons-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

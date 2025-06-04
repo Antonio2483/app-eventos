@@ -1,0 +1,12 @@
+.Logout-container {
+    position: relative;
+    margin-right: 30px;
+}
+
+.Logout-botao {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}

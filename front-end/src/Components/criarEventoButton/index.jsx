@@ -21,6 +21,31 @@ export default function CriarEventoButton() {
 
     const handleCriarEvento = (event) => {
 
+        if (!dataInicio) {
+            setErro("Campo data de início é obrigatório");
+            return;
+        }
+
+        if (!dataTermino) {
+            setErro("Campo data de término é obrigatório");
+            return;
+        }
+
+        if (!gratuito && !mediaValor) {
+            setErro("Campo média de valor é obrigatório");
+            return;
+        }
+
+        if (!descricao) {
+            setErro("Campo descrição é obrigatório");
+            return;
+        }
+
+        if (dataInicio > dataTermino) {
+            setErro("A data de início não pode ser depois da data de término");
+            return;
+        }
+
         callout.post('http://localhost:5000/eventos/criarEvento', { titulo, descricao, dataMarcada: dataInicio, dataTermino, mediaValor, gratuito })
             .then(response => {
                 handleLimparFormEvento()

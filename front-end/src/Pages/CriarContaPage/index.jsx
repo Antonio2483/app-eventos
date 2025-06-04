@@ -6,6 +6,10 @@ import { useState, useEffect } from "react";
 import callout from '../../services/api';
 import Footer from "../../Components/Footer"
 import './Style.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
 
 export default function CriarConta() {
 
@@ -22,6 +26,8 @@ export default function CriarConta() {
     const [cep, setCep] = useState("");
     const [erro, setErro] = useState("");
     const [contaCriada, setContaCriada] = useState("");
+    const [mostrarSenha, setMostrarSenha] = useState(false);
+
 
     const handleCriarConta = async () => {
         setErro("");
@@ -108,7 +114,21 @@ export default function CriarConta() {
                             <p className="title-font criar-conta-title">Só precisamos de alguns dados...</p>
                             {erro && <p style={{ color: "red" }}>{erro}</p>}
                             <input className="input-criar-conta criar-conta-email" type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-                            <input className="input-criar-conta criar-conta-senha" type="password" placeholder="Senha" onChange={(e) => setSenha(e.target.value)} />
+                            <div className="input-senha-container-criar-conta">
+                                <input
+                                    className="input-criar-conta criar-conta-senha"
+                                    type={mostrarSenha ? "text" : "password"}
+                                    placeholder="Senha"
+                                    onChange={(e) => setSenha(e.target.value)}
+                                />
+                                <button
+                                    type="button"
+                                    className="toggle-senha-criar-conta"
+                                    onClick={() => setMostrarSenha(!mostrarSenha)}
+                                >
+                                    {mostrarSenha ? (<FontAwesomeIcon icon={faEye} />) : (<FontAwesomeIcon icon={faEyeSlash} />)}
+                                </button>
+                            </div>
                             <input className="input-criar-conta criar-conta-nome" type="text" placeholder="Nome Completo" onChange={(e) => setNome(e.target.value)} />
                             <div className="criar-conta-dataNascimento-div">
                                 Data de nascimento:
@@ -159,8 +179,10 @@ export default function CriarConta() {
                                 </div>
                             </div>
 
-
-                            <button className="button criar-conta-button" onClick={handleCriarConta}>Criar conta</button>
+                            <div className="criar-conta-buttons-container">
+                                <button className="button criar-conta-button" onClick={handleCriarConta}>Criar conta</button>
+                                <Link to="/"><button className="button voltar-login-button">Voltar</button></Link>
+                            </div>
                         </div>) : (
                         <div className="criar-conta-contaCriada">
                             <h1>Conta criada com sucesso!</h1>

@@ -16,3 +16,9 @@
     border-bottom: 2px solid #cda6d2;
     z-index: 20;
 }
+
+.header-buttons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

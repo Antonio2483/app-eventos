@@ -208,6 +208,11 @@ export default function EventoDetail() {
             return;
         }
 
+        if(dataInicio > dataTermino){
+            setErro("A data de início não pode ser depois da data de término");
+            return;
+        }
+
         atualizarEvento();
 
     };
