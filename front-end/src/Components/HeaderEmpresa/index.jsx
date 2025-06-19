@@ -4,12 +4,18 @@ import './Style.css';
 import { faHouse } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import LogoutButton from "../../Components/LogoutButton"
+
 const HeaderEmpresa = (props) => (
     <header className="header-empresa-container">
         <div className='header-empresa-button-container'>
-        <Link className="header-empresa-button-link" to="/eventos/todos"> <button className='headerempresa-btn-icon'><FontAwesomeIcon icon={faHouse} /></button></Link>
+            <Link className="header-empresa-button-link" to="/eventos/todos"> <button className='headerempresa-btn-icon'><FontAwesomeIcon icon={faHouse} /></button></Link>
         </div>
-        {props.title}
+        
+        <div className='header-logout-empresa'>
+            {props.title}
+            <LogoutButton />
+        </div>
     </header>
 );
 

@@ -23,6 +23,7 @@ export default function Membro() {
     const [cidade, setCidade] = useState('');
     const [bairro, setBairro] = useState('');
     const [numero, setNumero] = useState('');
+    const [rua, setRua] = useState('');
     const [complemento, setComplemento] = useState('');
     const [site, setSite] = useState('');
     const [formEnviado, setFormEnviado] = useState(false);
@@ -111,6 +112,7 @@ export default function Membro() {
 
                     let endereco = {};
                     endereco.numero = numero;
+                    endereco.rua = rua;
                     endereco.bairro = bairro;
                     endereco.cidade = cidade;
                     endereco.estado = estado;
@@ -181,6 +183,10 @@ export default function Membro() {
         }
         if (!numero) {
             setErro("Número é obrigatório")
+            return false;
+        }
+        if (!rua) {
+            setErro("Rua é obrigatória")
             return false;
         }
         if (!celular || celular.length < 15) {
@@ -280,9 +286,15 @@ export default function Membro() {
                                     <p>Bairro*</p>
                                     <input className="input-form-membro" type="text" placeholder="" onChange={(e) => setBairro(e.target.value)} />
                                 </td>
-                                <td style={{ paddingRight: '15px' }} colSpan={2}>
+                                <td style={{ paddingRight: '15px', display:'flex' }} colSpan={2}>
+                                    <div className="divisao-meio-meio-tornese-membro">
+                                    <p>Rua*</p>
+                                    <input className="input-form-membro" type="text" placeholder="" onChange={(e) => setRua(e.target.value)} />
+                                    </div>
+                                    <div className="divisao-meio-meio-tornese-membro" style={{ paddingLeft: '15px' }}>
                                     <p>Número*</p>
                                     <input className="input-form-membro" type="text" placeholder="" onChange={(e) => setNumero(e.target.value)} />
+                                    </div>
                                 </td>
                                 <td colSpan={2}>
                                     <p>Complemento(Opicional)</p>

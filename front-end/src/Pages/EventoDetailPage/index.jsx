@@ -44,6 +44,7 @@ export default function EventoDetail() {
         datasets: []
     });
     const [totalInscricoes, SetTotalInscricoes] = useState([]);
+    const [titulo, setTitulo] = useState(""); 
     const [confirmados, SetConfirmados] = useState([]);
     const [pendente, SetPendente] = useState([]);
     const [cancelados, SetCancelados] = useState([]);
@@ -171,6 +172,7 @@ export default function EventoDetail() {
     const handleEdicao = (e) => {
         setEdicao(true)
 
+        setTitulo(evento.titulo);
         setDataInicio(formatarData(evento.dataMarcada));
         setDataTermino(formatarData(evento.dataTermino));
         setGratuito(evento.gratuito)
@@ -179,7 +181,8 @@ export default function EventoDetail() {
     };
 
     const handleCancelarEdicao = (e) => {
-        setEdicao(false)
+        setEdicao(false);
+        setTitulo("");
         setDataInicio("");
         setDataTermino("");
         setGratuito(false)
@@ -188,6 +191,11 @@ export default function EventoDetail() {
     };
 
     const handleSalvarEvento = (e) => {
+        if (!titulo) {
+            setErro("Campo título é obrigatório");
+            return;
+        }
+
         if (!dataInicio) {
             setErro("Campo data de início é obrigatório");
             return;
@@ -218,7 +226,7 @@ export default function EventoDetail() {
     };
 
     const atualizarEvento = async (e) => {
-        callout.put('http://localhost:5000/eventos/atualizar', { id, dataMarcada:dataInicio, dataTermino, gratuito, mediaValor, descricao })
+        callout.put('http://localhost:5000/eventos/atualizar', { id, titulo, dataMarcada:dataInicio, dataTermino, gratuito, mediaValor, descricao })
             .then(response => {
                 handleCancelarEdicao();
                 getEventos();
@@ -353,6 +361,14 @@ export default function EventoDetail() {
                                     <col style={{ width: '15%' }} />
                                     <col style={{ width: '85%' }} />
                                 </colgroup>
+                                <tr>
+                                    <td className="titulo">
+                                        Título:
+                                    </td>
+                                    <td>
+                                        <input className="input-atualizar-evento" type="text" placeholder="Título" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td className="titulo">
                                         Data Início:

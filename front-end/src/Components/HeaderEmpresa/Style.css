@@ -14,6 +14,7 @@
     font-size: 1.5rem;
     border-bottom: 2px solid #cda6d2;
     z-index: 300;
+    
 }
 
 .header-empresa-button-container{
@@ -39,4 +40,12 @@
 .headerempresa-btn-icon:hover{
     background-color: #cda6d2;
     color:white
+}
+
+.header-logout-empresa{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-right: 10px;
 }
